@@ -8,11 +8,17 @@ export const databaseProviders = [
     useFactory: async () => {
       const sequelize = new Sequelize({
         dialect: 'postgres',
-        host: 'localhost',
+        host: 'ep-raspy-credit-a2strues.eu-central-1.pg.koyeb.app',
         port: 5432,
-        username: 'postgres',
-        password: 'fahim',
-        database: 'user_db',
+        username: 'koyeb-adm',
+        password: 'l5wtcpoiN0TV',
+        database: 'koyebdb',
+        dialectOptions: {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
+        },
       });
       sequelize.addModels([Customer]);
       await sequelize.sync();
