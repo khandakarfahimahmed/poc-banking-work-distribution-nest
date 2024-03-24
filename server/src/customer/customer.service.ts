@@ -25,4 +25,7 @@ export class CustomerService {
   async findByNid(nid_no: number): Promise<Customer> {
     return this.customerModel.findOne({ where: { nid_no } });
   }
+  async findByPhone(phone: number): Promise<Customer> {
+    return this.customerModel.findOne({ where: { phone } });
+  }
 }
