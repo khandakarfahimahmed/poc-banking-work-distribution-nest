@@ -33,16 +33,13 @@ export class CustomerController {
 
     const createdCustomer = await this.customerService.create(customer);
     await this.customerService.createWorkOrder({
-      name: customer.name,
-      nid_no: customer.nid_no,
-      phone: customer.phone,
-      stage: 'reviewer',
+      acc_id: null,
+      customer_id: null,
+      type: 'customer',
+      acc_type: 'personal',
       status: 'reviewer',
-      type: 'Account opening',
-      account_type: customer.account_type,
-      first_step: 'null',
-      second_step: 'null',
-      third_step: 'null',
+      assigned_to: null,
+      start_time: null,
     });
     return createdCustomer;
   }
@@ -102,13 +99,13 @@ export class CustomerController {
     if (!first_step && !second_step && !third_step) {
       throw new HttpException('step must be provided', HttpStatus.BAD_REQUEST);
     }
-    if (first_step) {
-      await this.customerService.updateStatusReviewer(id, stage, first_step);
-    } else if (second_step) {
-      await this.customerService.updateStatusMaker(id, stage, second_step);
-    } else if (third_step) {
-      await this.customerService.updateStatusChecker(id, stage, third_step);
-    }
+    // if (first_step) {
+    //   await this.customerService.updateStatusReviewer(id, stage, first_step);
+    // } else if (second_step) {
+    //   await this.customerService.updateStatusMaker(id, stage, second_step);
+    // } else if (third_step) {
+    //   await this.customerService.updateStatusChecker(id, stage, third_step);
+    // }
 
     return this.customerService.findAllWorkOrder();
   }

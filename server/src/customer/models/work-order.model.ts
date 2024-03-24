@@ -1,6 +1,6 @@
 import { Sequelize, Model, Column, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { IWorkOrder } from './interfaces/work-order.interface';
+import { IWorkOrder } from '../interfaces/work-order.interface';
 
 @Table({
   tableName: 'work_orders',
@@ -11,25 +11,19 @@ export class WorkOrder extends Model<IWorkOrder> implements IWorkOrder {
   @Column({ primaryKey: true, autoIncrement: true })
   id: number;
   @Column
-  name: string;
-  @Column({ unique: true })
-  nid_no: number;
+  acc_id: number;
   @Column
-  phone: number;
-  @Column({ defaultValue: 'reviewer' })
-  stage: string;
-  @Column({ defaultValue: 'reviewer' })
-  status: string;
+  customer_id: number;
   @Column
   type: string;
   @Column
-  account_type: string;
+  acc_type: string;
   @Column
-  first_step: string | null;
+  status: string | null;
   @Column
-  second_step: string | null;
+  assigned_to: string | null;
   @Column
-  third_step: string | null;
+  start_time: Date | null;
 }
 
 export default WorkOrder;
