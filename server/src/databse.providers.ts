@@ -1,6 +1,7 @@
 require('dotenv').config();
 import { Sequelize } from 'sequelize-typescript';
 import { Customer } from './customer/customer.model';
+import { WorkOrder } from './customer/work-order.model';
 
 export const databaseProviders = [
   {
@@ -20,7 +21,7 @@ export const databaseProviders = [
           },
         },
       });
-      sequelize.addModels([Customer]);
+      sequelize.addModels([Customer, WorkOrder]);
       await sequelize.sync();
       return sequelize;
     },

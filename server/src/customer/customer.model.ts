@@ -1,16 +1,13 @@
 import { Sequelize, Model, Column, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { CustomerInterface } from './interfaces/customer-interface/customer-interface.interface';
+import { ICustomer } from './interfaces/customer-interface.interface';
 
 @Table({
   tableName: 'customers',
   timestamps: true,
   freezeTableName: true,
 })
-export class Customer
-  extends Model<CustomerInterface>
-  implements CustomerInterface
-{
+export class Customer extends Model<ICustomer> implements ICustomer {
   @Column({ primaryKey: true, autoIncrement: true })
   id: number;
   @Column
@@ -24,9 +21,11 @@ export class Customer
   @Column
   email: string;
   @Column
-  tin_no: number;
+  tin_no: string;
   @Column
   birth_certificate_no: number;
+  @Column
+  account_type: string;
 
   //   @Column
   //   createdAt: Date;
