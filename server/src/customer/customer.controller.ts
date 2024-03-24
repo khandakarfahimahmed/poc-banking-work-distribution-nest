@@ -9,13 +9,14 @@ import {
 import { CustomerService } from './customer.service';
 import { ICustomer } from './interfaces/customer-interface.interface';
 import { IWorkOrder } from './interfaces/work-order.interface';
+import { workerData } from 'worker_threads';
 
 @Controller('customer')
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
   @Get()
-  async getAll(): Promise<ICustomer[]> {
-    return this.customerService.findAll();
+  async getAllCustomer(): Promise<ICustomer[]> {
+    return this.customerService.findAllCustomer();
   }
 
   @Post()
@@ -72,5 +73,43 @@ export class CustomerController {
     }
 
     return customer;
+  }
+
+  @Post('update-status')
+  async updateStatus(
+    @Body()
+    updateData: {
+      id: number;
+      stage: string;
+      'first-step'?: string;
+      'second-step'?: string;
+      'third-step'?: string;
+    },
+  ): Promise<IWorkOrder[]> {
+    const {
+      id,
+      stage,
+      'first-step': first_step,
+      'second-step': second_step,
+      'third-step': third_step,
+    } = updateData;
+    if (!id) {
+      throw new HttpException('id must be provided', HttpStatus.BAD_REQUEST);
+    }
+    if (!stage) {
+      throw new HttpException('stage must be provided', HttpStatus.BAD_REQUEST);
+    }
+    if (!first_step && !second_step && !third_step) {
+      throw new HttpException('step must be provided', HttpStatus.BAD_REQUEST);
+    }
+    if (first_step) {
+      await this.customerService.updateStatusReviewer(id, stage, first_step);
+    } else if (second_step) {
+      await this.customerService.updateStatusMaker(id, stage, second_step);
+    } else if (third_step) {
+      await this.customerService.updateStatusChecker(id, stage, third_step);
+    }
+
+    return this.customerService.findAllWorkOrder();
   }
 }

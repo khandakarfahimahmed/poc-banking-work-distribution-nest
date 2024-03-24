@@ -26,11 +26,6 @@ export class Customer extends Model<ICustomer> implements ICustomer {
   birth_certificate_no: number;
   @Column
   account_type: string;
-
-  //   @Column
-  //   createdAt: Date;
-  //   @Column
-  //   updatedAt: Date;
 }
 
 export default Customer;

@@ -11,7 +11,7 @@ export class CustomerService {
     @Inject('WORKORDER_REPOSITORY')
     private readonly workOrderModel: typeof WorkOrder,
   ) {}
-  async findAll(): Promise<Customer[]> {
+  async findAllCustomer(): Promise<Customer[]> {
     return this.customerModel.findAll();
   }
 
@@ -27,5 +27,30 @@ export class CustomerService {
   }
   async findByPhone(phone: number): Promise<Customer> {
     return this.customerModel.findOne({ where: { phone } });
+  }
+
+  async updateStatusReviewer(
+    id: number,
+    stage: string,
+    first_step: string,
+  ): Promise<void> {
+    await this.workOrderModel.update({ stage, first_step }, { where: { id } });
+  }
+  async updateStatusMaker(
+    id: number,
+    stage: string,
+    second_step: string,
+  ): Promise<void> {
+    await this.workOrderModel.update({ stage, second_step }, { where: { id } });
+  }
+  async updateStatusChecker(
+    id: number,
+    stage: string,
+    third_step: string,
+  ): Promise<void> {
+    await this.workOrderModel.update({ stage, third_step }, { where: { id } });
+  }
+  async findAllWorkOrder(): Promise<WorkOrder[]> {
+    return this.workOrderModel.findAll();
   }
 }
