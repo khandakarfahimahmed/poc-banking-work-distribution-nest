@@ -1,6 +1,7 @@
 import { Customer } from './models/customer.model';
 import { WorkOrder } from './models/work-order.model';
 import { WorkFlowAssignLog } from './models/workflow-assign-log.model';
+import { Employee } from './models/employee.model';
 
 export const customerProviders = [
   {
@@ -14,5 +15,9 @@ export const customerProviders = [
   {
     provide: 'WORKFLOW_ASSIGN_LOG_REPOSITORY',
     useValue: WorkFlowAssignLog,
+  },
+  {
+    provide: 'EMPLOYEE_REPOSITORY',
+    useValue: Employee,
   },
 ];

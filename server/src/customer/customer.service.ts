@@ -3,6 +3,9 @@ import { ICustomer } from './interfaces/customer-interface.interface';
 import { Customer } from './models/customer.model';
 import { IWorkOrder } from './interfaces/work-order.interface';
 import { WorkOrder } from './models/work-order.model';
+import { Employee } from './models/employee.model';
+import { IEmployee } from './interfaces/employee.interface';
+
 @Injectable()
 export class CustomerService {
   constructor(
@@ -10,6 +13,8 @@ export class CustomerService {
     private readonly customerModel: typeof Customer,
     @Inject('WORKORDER_REPOSITORY')
     private readonly workOrderModel: typeof WorkOrder,
+    @Inject('EMPLOYEE_REPOSITORY')
+    private readonly employeeModel: typeof Employee,
   ) {}
   async findAllCustomer(): Promise<Customer[]> {
     return this.customerModel.findAll();
@@ -52,5 +57,9 @@ export class CustomerService {
   // }
   async findAllWorkOrder(): Promise<WorkOrder[]> {
     return this.workOrderModel.findAll();
+  }
+
+  async findAllEmployee(): Promise<Employee[]> {
+    return this.employeeModel.findAll({ where: { active: true } });
   }
 }

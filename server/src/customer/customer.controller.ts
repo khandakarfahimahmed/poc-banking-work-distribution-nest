@@ -9,7 +9,8 @@ import {
 import { CustomerService } from './customer.service';
 import { ICustomer } from './interfaces/customer-interface.interface';
 import { IWorkOrder } from './interfaces/work-order.interface';
-import { workerData } from 'worker_threads';
+import { IEmployee } from './interfaces/employee.interface';
+import { Employee } from './models/employee.model';
 
 @Controller('customer')
 export class CustomerController {
@@ -108,5 +109,10 @@ export class CustomerController {
     // }
 
     return this.customerService.findAllWorkOrder();
+  }
+
+  @Get('employee')
+  async getEmployee(): Promise<Employee[]> {
+    return this.customerService.findAllEmployee();
   }
 }

@@ -3,6 +3,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { Customer } from './customer/models/customer.model';
 import { WorkOrder } from './customer/models/work-order.model';
 import { WorkFlowAssignLog } from './customer/models/workflow-assign-log.model';
+import { Employee } from './customer/models/employee.model';
 
 export const databaseProviders = [
   {
@@ -22,7 +23,7 @@ export const databaseProviders = [
           },
         },
       });
-      sequelize.addModels([Customer, WorkOrder, WorkFlowAssignLog]);
+      sequelize.addModels([Customer, WorkOrder, WorkFlowAssignLog, Employee]);
       await sequelize.sync();
       return sequelize;
     },
