@@ -8,6 +8,4 @@ export interface ICustomer {
   tin_no: string;
   birth_certificate_no: number;
   account_type: string;
-  //   createdAt: Date;
-  //   updatedAt: Date;
 }

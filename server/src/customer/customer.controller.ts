@@ -11,6 +11,9 @@ import { ICustomer } from './interfaces/customer-interface.interface';
 import { IWorkOrder } from './interfaces/work-order.interface';
 import { IEmployee } from './interfaces/employee.interface';
 import { Employee } from './models/employee.model';
+import { get } from 'http';
+import { EmployeeStats } from './models/employee-stats.model';
+import { IEmployeeStats } from './interfaces/employee-stats.interface';
 
 @Controller('customer')
 export class CustomerController {
@@ -36,11 +39,12 @@ export class CustomerController {
     await this.customerService.createWorkOrder({
       acc_id: null,
       customer_id: null,
-      type: 'customer',
+      type: 'Account opening',
       acc_type: 'personal',
       status: 'reviewer',
       assigned_to: null,
       start_time: null,
+      isAssigned: false,
     });
     return createdCustomer;
   }
@@ -112,7 +116,12 @@ export class CustomerController {
   }
 
   @Get('employee')
-  async getEmployee(): Promise<Employee[]> {
-    return this.customerService.findAllEmployee();
+  async getActiveEmployee(): Promise<Employee[]> {
+    return this.customerService.findActiveEmployee();
+  }
+
+  @Get('assign-task')
+  async assignTask(): Promise<any> {
+    return this.customerService.distributeTask();
   }
 }

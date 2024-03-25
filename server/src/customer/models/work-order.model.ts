@@ -24,6 +24,9 @@ export class WorkOrder extends Model<IWorkOrder> implements IWorkOrder {
   assigned_to: string | null;
   @Column
   start_time: Date | null;
+
+  @Column({ defaultValue: false })
+  isAssigned: boolean;
 }
 
 export default WorkOrder;

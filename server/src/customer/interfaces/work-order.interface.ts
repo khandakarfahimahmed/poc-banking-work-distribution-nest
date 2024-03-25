@@ -7,4 +7,5 @@ export interface IWorkOrder {
   status: string;
   assigned_to: string;
   start_time: Date;
+  isAssigned: boolean;
 }

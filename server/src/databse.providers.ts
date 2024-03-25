@@ -4,6 +4,7 @@ import { Customer } from './customer/models/customer.model';
 import { WorkOrder } from './customer/models/work-order.model';
 import { WorkFlowAssignLog } from './customer/models/workflow-assign-log.model';
 import { Employee } from './customer/models/employee.model';
+import { EmployeeStats } from './customer/models/employee-stats.model';
 
 export const databaseProviders = [
   {
@@ -23,7 +24,13 @@ export const databaseProviders = [
           },
         },
       });
-      sequelize.addModels([Customer, WorkOrder, WorkFlowAssignLog, Employee]);
+      sequelize.addModels([
+        Customer,
+        WorkOrder,
+        WorkFlowAssignLog,
+        Employee,
+        EmployeeStats,
+      ]);
       await sequelize.sync();
       return sequelize;
     },
