@@ -77,41 +77,32 @@ export class CustomerController {
     return customer;
   }
 
-  @Post('update-status')
-  async updateStatus(
+  @Post('update-status/reviewer')
+  async updateStatusreviewer(
     @Body()
     updateData: {
       id: number;
-      stage: string;
-      'first-step'?: string;
-      'second-step'?: string;
-      'third-step'?: string;
     },
   ): Promise<IWorkOrder[]> {
-    const {
-      id,
-      stage,
-      'first-step': first_step,
-      'second-step': second_step,
-      'third-step': third_step,
-    } = updateData;
+    const { id } = updateData;
     if (!id) {
       throw new HttpException('id must be provided', HttpStatus.BAD_REQUEST);
     }
-    if (!stage) {
-      throw new HttpException('stage must be provided', HttpStatus.BAD_REQUEST);
+    await this.customerService.updateStatusReviewer(id);
+    return this.customerService.findAllWorkOrder();
+  }
+  @Post('update-status/maker')
+  async updateStatusmaker(
+    @Body()
+    updateData: {
+      id: number;
+    },
+  ): Promise<IWorkOrder[]> {
+    const { id } = updateData;
+    if (!id) {
+      throw new HttpException('id must be provided', HttpStatus.BAD_REQUEST);
     }
-    if (!first_step && !second_step && !third_step) {
-      throw new HttpException('step must be provided', HttpStatus.BAD_REQUEST);
-    }
-    // if (first_step) {
-    //   await this.customerService.updateStatusReviewer(id, stage, first_step);
-    // } else if (second_step) {
-    //   await this.customerService.updateStatusMaker(id, stage, second_step);
-    // } else if (third_step) {
-    //   await this.customerService.updateStatusChecker(id, stage, third_step);
-    // }
-
+    await this.customerService.updateStatusMaker(id);
     return this.customerService.findAllWorkOrder();
   }
 

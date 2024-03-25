@@ -43,27 +43,19 @@ export class CustomerService {
     return this.customerModel.findOne({ where: { phone } });
   }
 
-  // async updateStatusReviewer(
-  //   id: number,
-  //   stage: string,
-  //   first_step: string,
-  // ): Promise<void> {
-  //   await this.workOrderModel.update({ stage, first_step }, { where: { id } });
-  // }
-  // async updateStatusMaker(
-  //   id: number,
-  //   stage: string,
-  //   second_step: string,
-  // ): Promise<void> {
-  //   await this.workOrderModel.update({ stage, second_step }, { where: { id } });
-  // }
-  // async updateStatusChecker(
-  //   id: number,
-  //   stage: string,
-  //   third_step: string,
-  // ): Promise<void> {
-  //   await this.workOrderModel.update({ stage, third_step }, { where: { id } });
-  // }
+  async updateStatusReviewer(id: number): Promise<void> {
+    await this.workOrderModel.update(
+      { status: 'maker', isAssigned: false },
+      { where: { id } },
+    );
+  }
+  async updateStatusMaker(id: number): Promise<void> {
+    await this.workOrderModel.update(
+      { status: 'checker', isAssigned: false },
+      { where: { id } },
+    );
+  }
+
   async findAllWorkOrder(): Promise<WorkOrder[]> {
     return this.workOrderModel.findAll();
   }
