@@ -17,12 +17,11 @@ import { IEmployee } from './employee.interface';
 })
 export class Employee extends Model<IEmployee> {
   @Column({
-    type: DataTypes.STRING,
     primaryKey: true,
     unique: true,
     allowNull: false,
   })
-  id: string;
+  id: number;
 
   @Column({
     type: DataTypes.STRING,
@@ -57,6 +56,6 @@ export class Employee extends Model<IEmployee> {
   admin: boolean;
 
   @Column
-  role_id: string;
+  role_id: number;
 }
 export default Employee;

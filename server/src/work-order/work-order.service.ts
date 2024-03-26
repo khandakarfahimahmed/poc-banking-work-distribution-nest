@@ -30,7 +30,7 @@ export class WorkOrderService {
   async updateWorkOrder(
     id: number,
     status: string,
-    assigned_to: string,
+    assigned_to: number,
   ): Promise<void> {
     try {
       await this.workOrderModel.update(
@@ -47,6 +47,7 @@ export class WorkOrderService {
       );
     } catch (error) {
       console.log(`Error updating work order for task ${id}:`, error);
+      throw error;
     }
   }
 }

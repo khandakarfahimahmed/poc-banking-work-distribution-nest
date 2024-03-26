@@ -21,7 +21,7 @@ export class WorkOrder extends Model<IWorkOrder> implements IWorkOrder {
   @Column
   status: string | null;
   @Column
-  assigned_to: string | null;
+  assigned_to: number | null;
   @Column
   start_time: Date | null;
 

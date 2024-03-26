@@ -16,9 +16,9 @@ export class WorkFlowAssignLog
   @Column
   work_order_id: number;
   @Column
-  employee_id: string;
+  employee_id: number;
   @Column
-  role_id: string;
+  role_id: number;
   @Column
   step_id: number;
 }

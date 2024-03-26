@@ -5,7 +5,7 @@ export interface IWorkOrder {
   type: string;
   acc_type: string;
   status: string;
-  assigned_to: string;
+  assigned_to: number;
   start_time: Date;
   isAssigned: boolean;
 }

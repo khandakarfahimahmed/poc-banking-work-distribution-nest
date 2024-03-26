@@ -1,7 +1,7 @@
 export interface IWorkFlowAssignLog {
   id?: number;
   work_order_id: number;
-  employee_id: string;
-  role_id: string;
+  employee_id: number;
+  role_id: number;
   step_id: number;
 }

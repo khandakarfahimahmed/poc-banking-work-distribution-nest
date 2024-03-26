@@ -1,9 +1,9 @@
 export interface IEmployee {
-  id: string;
+  id: number;
   name: string;
   email: string;
   phone: number;
   active: boolean;
   admin: boolean;
-  role_id: string;
+  role_id: number;
 }
