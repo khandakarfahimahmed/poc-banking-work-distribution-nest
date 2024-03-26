@@ -8,20 +8,19 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { IEmployeeStats } from '../interfaces/employee-stats.interface';
+import { IEmployee } from './employee.interface';
 
 @Table({
-  tableName: 'employee_stats',
+  tableName: 'employee',
   timestamps: false, // Disable timestamps
   freezeTableName: true, // Prevent table name changes
 })
-export class EmployeeStats extends Model<IEmployeeStats> {
+export class Employee extends Model<IEmployee> {
   @Column({
     type: DataTypes.STRING,
     primaryKey: true,
     unique: true,
     allowNull: false,
-    autoIncrement: true,
   })
   id: string;
 
@@ -29,39 +28,35 @@ export class EmployeeStats extends Model<IEmployeeStats> {
     type: DataTypes.STRING,
     allowNull: false,
   })
-  workflow_id: string;
+  name: string;
 
   @Column({
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   })
+  email: string;
+
+  @Column({
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  })
+  phone: string;
+
+  @Column({
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  })
+  active: boolean;
+
+  @Column({
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  })
+  admin: boolean;
+
+  @Column
   role_id: string;
-
-  @Column({
-    type: DataTypes.DATE,
-    allowNull: false,
-  })
-  start_timestamp: Date;
-
-  @Column({
-    type: DataTypes.DATE,
-  })
-  end_timestamp: Date;
-
-  @Column({
-    type: DataTypes.STRING,
-  })
-  time_allotted: string;
-
-  @Column({
-    type: DataTypes.STRING,
-  })
-  error_count: string;
-
-  @Column({
-    type: DataTypes.STRING,
-    allowNull: false,
-  })
-  employee_id: string;
 }
-export default EmployeeStats;
+export default Employee;

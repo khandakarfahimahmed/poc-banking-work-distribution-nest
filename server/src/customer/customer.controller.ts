@@ -7,17 +7,16 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
-import { ICustomer } from './interfaces/customer-interface.interface';
-import { IWorkOrder } from './interfaces/work-order.interface';
-import { IEmployee } from './interfaces/employee.interface';
-import { Employee } from './models/employee.model';
-import { get } from 'http';
-import { EmployeeStats } from './models/employee-stats.model';
-import { IEmployeeStats } from './interfaces/employee-stats.interface';
+import { WorkOrderService } from '../work-order/work-order.service';
+
+import { ICustomer } from './customer.interface';
 
 @Controller('customer')
 export class CustomerController {
-  constructor(private readonly customerService: CustomerService) {}
+  constructor(
+    private readonly customerService: CustomerService,
+    private readonly workOrderService: WorkOrderService,
+  ) {}
   @Get()
   async getAllCustomer(): Promise<ICustomer[]> {
     return this.customerService.findAllCustomer();
@@ -36,7 +35,7 @@ export class CustomerController {
     }
 
     const createdCustomer = await this.customerService.create(customer);
-    await this.customerService.createWorkOrder({
+    await this.workOrderService.createWorkOrder({
       acc_id: null,
       customer_id: null,
       type: 'Account opening',
@@ -75,44 +74,5 @@ export class CustomerController {
     }
 
     return customer;
-  }
-
-  @Post('update-status/reviewer')
-  async updateStatusreviewer(
-    @Body()
-    updateData: {
-      id: number;
-    },
-  ): Promise<IWorkOrder[]> {
-    const { id } = updateData;
-    if (!id) {
-      throw new HttpException('id must be provided', HttpStatus.BAD_REQUEST);
-    }
-    await this.customerService.updateStatusReviewer(id);
-    return this.customerService.findAllWorkOrder();
-  }
-  @Post('update-status/maker')
-  async updateStatusmaker(
-    @Body()
-    updateData: {
-      id: number;
-    },
-  ): Promise<IWorkOrder[]> {
-    const { id } = updateData;
-    if (!id) {
-      throw new HttpException('id must be provided', HttpStatus.BAD_REQUEST);
-    }
-    await this.customerService.updateStatusMaker(id);
-    return this.customerService.findAllWorkOrder();
-  }
-
-  @Get('employee')
-  async getActiveEmployee(): Promise<Employee[]> {
-    return this.customerService.findActiveEmployee();
-  }
-
-  @Get('assign-task')
-  async assignTask(): Promise<any> {
-    return this.customerService.distributeTask();
   }
 }

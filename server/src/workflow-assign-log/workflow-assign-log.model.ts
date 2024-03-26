@@ -1,6 +1,6 @@
 import { Sequelize, Model, Column, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { IWorkFlowAssignLog } from '../interfaces/workflow-assign-log.interface';
+import { IWorkFlowAssignLog } from './workflow-assign-log.interface';
 
 @Table({
   tableName: 'workflow_assign_log',

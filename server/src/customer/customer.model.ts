@@ -1,6 +1,6 @@
 import { Sequelize, Model, Column, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { ICustomer } from '../interfaces/customer-interface.interface';
+import { ICustomer } from './customer.interface';
 
 @Table({
   tableName: 'customers',

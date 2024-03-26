@@ -1,6 +1,6 @@
 import { Sequelize, Model, Column, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { IWorkOrder } from '../interfaces/work-order.interface';
+import { IWorkOrder } from './work-order.interface';
 
 @Table({
   tableName: 'work_orders',

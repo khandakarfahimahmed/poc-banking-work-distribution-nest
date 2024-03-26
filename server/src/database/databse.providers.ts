@@ -1,10 +1,10 @@
 require('dotenv').config();
 import { Sequelize } from 'sequelize-typescript';
-import { Customer } from './customer/models/customer.model';
-import { WorkOrder } from './customer/models/work-order.model';
-import { WorkFlowAssignLog } from './customer/models/workflow-assign-log.model';
-import { Employee } from './customer/models/employee.model';
-import { EmployeeStats } from './customer/models/employee-stats.model';
+import { Customer } from '../customer/customer.model';
+import { WorkOrder } from '../work-order/work-order.model';
+import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.model';
+import { Employee } from '../employee/employee.model';
+import { EmployeeStats } from '../employee-stats/employee-stats.model';
 
 export const databaseProviders = [
   {
