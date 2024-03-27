@@ -126,7 +126,7 @@ export class WorkFlowAssignLogService {
   }
 
   //EVERY_30_MINUTES
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_MINUTE, { name: 'distributeTask' })
   distributeTaskByCron() {
     this.logger.debug('Running distributeTask cron job...');
     return this.distributeTask();
