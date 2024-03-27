@@ -23,6 +23,7 @@ import { EmployeeController } from './employee/employee.controller';
 import { EmployeeStatsController } from './employee-stats/employee-stats.controller';
 import { WorkflowAssignLogController } from './workflow-assign-log/workflow-assign-log.controller';
 import { WorkOrderController } from './work-order/work-order.controller';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { WorkOrderController } from './work-order/work-order.controller';
     EmployeeStatsModule,
     WorkFlowAssignLogModule,
     WorkOrderModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [
     AppController,

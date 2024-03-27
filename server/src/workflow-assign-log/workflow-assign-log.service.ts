@@ -1,11 +1,14 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { WorkFlowAssignLog } from './workflow-assign-log.model';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { WorkOrder } from '../work-order/work-order.model';
 import { Employee } from '../employee/employee.model';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class WorkFlowAssignLogService {
+  private readonly logger = new Logger(WorkFlowAssignLogService.name);
+  private readonly threshold = 3;
   constructor(
     @Inject('WORKFLOW_ASSIGN_LOG_REPOSITORY')
     private readonly workFlowAssignLogModel: typeof WorkFlowAssignLog,
@@ -60,8 +63,6 @@ export class WorkFlowAssignLogService {
     }
   }
 
-  threshold = 3;
-
   async distributeTask(): Promise<void> {
     try {
       // Find all active employees who are not admins
@@ -90,6 +91,7 @@ export class WorkFlowAssignLogService {
 
           // Check if the employee is eligible for assignment based on role
           if (roleId === 2 && tasksByRole[0].length > 0) {
+            // checks if tasks are availabe or not
             await this.assignAndExecute(tasksByRole[0], roleId, employeeId, 1);
           } else if (roleId === 3 && tasksByRole[1].length > 0) {
             await this.assignAndExecute(tasksByRole[1], roleId, employeeId, 2);
@@ -121,5 +123,12 @@ export class WorkFlowAssignLogService {
         ]);
       }),
     );
+  }
+
+  //EVERY_30_MINUTES
+  @Cron(CronExpression.EVERY_MINUTE)
+  distributeTaskByCron() {
+    this.logger.debug('Running distributeTask cron job...');
+    return this.distributeTask();
   }
 }

@@ -13,8 +13,7 @@ import { EmployeeModule } from 'src/employee/employee.module';
   imports: [DatabaseModule],
   controllers: [WorkflowAssignLogController],
   providers: [
-    WorkFlowAssignLogService,
-    WorkOrderService, // Provide WorkOrderService here
+    WorkFlowAssignLogService, // Provide WorkOrderService here
     ...workFlowAssignLogProviders,
     ...workOrderProviders,
     ...employeeProviders,
