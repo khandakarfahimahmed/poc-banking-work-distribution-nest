@@ -6,9 +6,13 @@ import { IEmployeeRole } from './employee-role.interface';
 export class EmployeeRoleService {
   constructor(
     @Inject('EMPLOYEE_ROLE_REPOSITORY')
-    private readonly employeeModel: typeof EmployeeRole,
+    private readonly employeeRoleModel: typeof EmployeeRole,
   ) {}
-  async findActiveEmployee(): Promise<EmployeeRole[]> {
-    return;
+  async getRoles(): Promise<EmployeeRole[]> {
+    return this.employeeRoleModel.findAll();
+  }
+  async getRoleName(id: number): Promise<string> {
+    const { name } = await this.employeeRoleModel.findOne({ where: { id } });
+    return name;
   }
 }
