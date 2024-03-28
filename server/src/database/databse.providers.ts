@@ -6,6 +6,7 @@ import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.mo
 import { Employee } from '../employee/employee.model';
 import { EmployeeStats } from '../employee-stats/employee-stats.model';
 import PdfData from 'src/pdf-data/pdf-data.model';
+import EmployeeRole from 'src/employee-role/employee-role.model';
 
 export const databaseProviders = [
   {
@@ -34,6 +35,7 @@ export const databaseProviders = [
         EmployeeStats,
         PdfData,
         CustomerAccountList,
+        EmployeeRole,
       ]);
       await sequelize.sync();
       return sequelize;

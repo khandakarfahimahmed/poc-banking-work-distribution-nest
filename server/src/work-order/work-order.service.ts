@@ -1,12 +1,15 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { IWorkOrder } from './work-order.interface';
 import { WorkOrder } from './work-order.model';
+import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.model';
 
 @Injectable()
 export class WorkOrderService {
   constructor(
     @Inject('WORKORDER_REPOSITORY')
     private readonly workOrderModel: typeof WorkOrder,
+    @Inject('WORKFLOW_ASSIGN_LOG_REPOSITORY')
+    private readonly workFlowAssignLogModel: typeof WorkFlowAssignLog,
   ) {}
   async createWorkOrder(workOrder: IWorkOrder): Promise<WorkOrder> {
     return this.workOrderModel.create(workOrder);

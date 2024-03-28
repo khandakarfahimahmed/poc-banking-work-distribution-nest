@@ -28,6 +28,10 @@ import { PdfDataModule } from './pdf-data/pdf-data.module';
 import { PdfDataController } from './pdf-data/pdf-data.controller';
 import { PdfDataService } from './pdf-data/pdf-data.service';
 import { pdfDataProviders } from './pdf-data/pdf-data.providers';
+import { EmployeeRoleModule } from './employee-role/employee-role.module';
+import { EmployeeRoleController } from './employee-role/employee-role.controller';
+import { EmployeeRoleService } from './employee-role/employee-role.service';
+import { employeeRoleProviders } from './employee-role/employee-role.providers';
 
 @Module({
   imports: [
@@ -37,6 +41,7 @@ import { pdfDataProviders } from './pdf-data/pdf-data.providers';
     WorkFlowAssignLogModule,
     WorkOrderModule,
     PdfDataModule,
+    EmployeeRoleModule,
     ScheduleModule.forRoot(),
   ],
   controllers: [
@@ -46,6 +51,7 @@ import { pdfDataProviders } from './pdf-data/pdf-data.providers';
     EmployeeStatsController,
     WorkflowAssignLogController,
     WorkOrderController,
+    EmployeeRoleController,
     PdfDataController,
   ],
   providers: [
@@ -56,12 +62,14 @@ import { pdfDataProviders } from './pdf-data/pdf-data.providers';
     WorkFlowAssignLogService,
     WorkOrderService,
     PdfDataService,
+    EmployeeRoleService,
     ...customerProviders,
     ...employeeProviders,
     ...employeeStatsProviders,
     ...workFlowAssignLogProviders,
     ...workOrderProviders,
     ...pdfDataProviders,
+    ...employeeRoleProviders,
   ],
 })
 export class AppModule {}
