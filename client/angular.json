@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Banking-App": {
+    "banking-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -32,15 +32,9 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
-                "output": "/assets/"
-              }
+              "src/assets"
             ],
             "styles": [
-              "src/theme.less",
               "src/styles.css"
             ],
             "scripts": [],
@@ -78,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Banking-App:build:production"
+              "buildTarget": "banking-app:build:production"
             },
             "development": {
-              "buildTarget": "Banking-App:build:development"
+              "buildTarget": "banking-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -89,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "Banking-App:build"
+            "buildTarget": "banking-app:build"
           }
         },
         "test": {
