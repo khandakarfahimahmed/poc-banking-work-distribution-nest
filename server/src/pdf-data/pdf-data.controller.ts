@@ -29,6 +29,8 @@ export class PdfDataController {
     const pdf3 = await convertPDFBufferToImagesAndUpload(files[2].buffer); // this gives the array with the image link
     const pdf4 = await convertPDFBufferToImagesAndUpload(files[3].buffer); // this gives the array with the image link
     const pdfData: IPdfData = {
+      customer_id: 1,
+      acc_id: 1,
       pdf_1: pdf1,
       pdf_2: pdf2,
       pdf_3: pdf3,

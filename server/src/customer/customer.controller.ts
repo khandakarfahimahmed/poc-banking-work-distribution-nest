@@ -39,16 +39,52 @@ export class CustomerController {
       customer.nid_no,
     );
     if (existingCustomer) {
+      let nextAccId = 1;
+      const maxId = await this.customerService.findMaxAccId(existingCustomer);
+
+      nextAccId = maxId + 1;
+
+      await this.workOrderService.createWorkOrder({
+        acc_id: nextAccId,
+        customer_id: existingCustomer.id,
+        type: 'Account opening',
+        acc_type: 'personal',
+        status: 'reviewer',
+        assigned_to: null,
+        start_time: null,
+        isAssigned: false,
+      });
+      await this.customerService.createAccList({
+        acc_id: nextAccId,
+        customer_id: existingCustomer.id,
+      });
+      const pdfData: IPdfData = {
+        acc_id: nextAccId,
+        customer_id: existingCustomer.id,
+        pdf_1: [],
+        pdf_2: [],
+        pdf_3: [],
+        pdf_4: [],
+      };
+
+      if (files && files.length > 0) {
+        for (let i = 0; i < Math.min(files.length, 4); i++) {
+          pdfData[`pdf_${i + 1}`] = await convertPDFBufferToImagesAndUpload(
+            files[i].buffer,
+          );
+        }
+        this.pdfDataService.postPdf(pdfData);
+      }
       throw new HttpException(
-        'NID number already exists',
+        { message: 'NID number already exists', existingCustomer },
         HttpStatus.BAD_REQUEST,
       );
     }
 
     const createdCustomer = await this.customerService.create(customer);
     await this.workOrderService.createWorkOrder({
-      acc_id: null,
-      customer_id: null,
+      acc_id: 1,
+      customer_id: createdCustomer.id,
       type: 'Account opening',
       acc_type: 'personal',
       status: 'reviewer',
@@ -56,7 +92,13 @@ export class CustomerController {
       start_time: null,
       isAssigned: false,
     });
+    await this.customerService.createAccList({
+      acc_id: 1,
+      customer_id: createdCustomer.id,
+    });
     const pdfData: IPdfData = {
+      acc_id: 1,
+      customer_id: createdCustomer.id,
       pdf_1: [],
       pdf_2: [],
       pdf_3: [],

@@ -1,12 +1,14 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { ICustomer } from './customer.interface';
-import { Customer } from './customer.model';
+import { ICustomer, ICustomerAccountNo } from './customer.interface';
+import { Customer, CustomerAccountList } from './customer.model';
 
 @Injectable()
 export class CustomerService {
   constructor(
     @Inject('CUSTOMER_REPOSITORY')
     private readonly customerModel: typeof Customer,
+    @Inject('CUSTOMER_ACCOUNT_REPOSITORY')
+    private readonly customerAccountListModel: typeof CustomerAccountList,
   ) {}
   async findAllCustomer(): Promise<Customer[]> {
     return this.customerModel.findAll();
@@ -23,5 +25,16 @@ export class CustomerService {
   }
   async findByPhone(phone: number): Promise<Customer> {
     return this.customerModel.findOne({ where: { phone } });
+  }
+  async createAccList(
+    accList: ICustomerAccountNo,
+  ): Promise<CustomerAccountList> {
+    return this.customerAccountListModel.create(accList);
+  }
+  async findMaxAccId(existingCustomer: Customer): Promise<any> {
+    const maxAccId = await this.customerAccountListModel.max('acc_id', {
+      where: { customer_id: existingCustomer.id },
+    });
+    return maxAccId;
   }
 }

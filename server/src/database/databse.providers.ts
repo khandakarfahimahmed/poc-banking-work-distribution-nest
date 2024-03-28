@@ -1,6 +1,6 @@
 require('dotenv').config();
 import { Sequelize } from 'sequelize-typescript';
-import { Customer } from '../customer/customer.model';
+import { Customer, CustomerAccountList } from '../customer/customer.model';
 import { WorkOrder } from '../work-order/work-order.model';
 import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.model';
 import { Employee } from '../employee/employee.model';
@@ -23,6 +23,7 @@ export const databaseProviders = [
             require: true,
             rejectUnauthorized: false,
           },
+          logging: false,
         },
       });
       sequelize.addModels([
@@ -32,6 +33,7 @@ export const databaseProviders = [
         Employee,
         EmployeeStats,
         PdfData,
+        CustomerAccountList,
       ]);
       await sequelize.sync();
       return sequelize;
