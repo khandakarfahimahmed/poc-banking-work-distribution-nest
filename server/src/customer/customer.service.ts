@@ -12,10 +12,13 @@ export class CustomerService {
     return this.customerModel.findAll();
   }
 
-  async create(customer: ICustomer): Promise<Customer> {
+  async create(customer: any): Promise<Customer> {
     return this.customerModel.create(customer);
   }
-  async findByNid(nid_no: number): Promise<Customer> {
+  async findByNid(nid_no: any): Promise<Customer> {
+    if (!nid_no) {
+      throw new Error('NID number must be provided');
+    }
     return this.customerModel.findOne({ where: { nid_no } });
   }
   async findByPhone(phone: number): Promise<Customer> {

@@ -24,6 +24,10 @@ import { EmployeeStatsController } from './employee-stats/employee-stats.control
 import { WorkflowAssignLogController } from './workflow-assign-log/workflow-assign-log.controller';
 import { WorkOrderController } from './work-order/work-order.controller';
 import { ScheduleModule } from '@nestjs/schedule';
+import { PdfDataModule } from './pdf-data/pdf-data.module';
+import { PdfDataController } from './pdf-data/pdf-data.controller';
+import { PdfDataService } from './pdf-data/pdf-data.service';
+import { pdfDataProviders } from './pdf-data/pdf-data.providers';
 
 @Module({
   imports: [
@@ -32,6 +36,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     EmployeeStatsModule,
     WorkFlowAssignLogModule,
     WorkOrderModule,
+    PdfDataModule,
     ScheduleModule.forRoot(),
   ],
   controllers: [
@@ -41,6 +46,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     EmployeeStatsController,
     WorkflowAssignLogController,
     WorkOrderController,
+    PdfDataController,
   ],
   providers: [
     AppService,
@@ -49,11 +55,13 @@ import { ScheduleModule } from '@nestjs/schedule';
     EmployeeStatsService,
     WorkFlowAssignLogService,
     WorkOrderService,
+    PdfDataService,
     ...customerProviders,
     ...employeeProviders,
     ...employeeStatsProviders,
     ...workFlowAssignLogProviders,
     ...workOrderProviders,
+    ...pdfDataProviders,
   ],
 })
 export class AppModule {}

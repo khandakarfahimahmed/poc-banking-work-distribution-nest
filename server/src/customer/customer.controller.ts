@@ -5,17 +5,24 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  UploadedFile,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { WorkOrderService } from '../work-order/work-order.service';
-
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { ICustomer } from './customer.interface';
+import { convertPDFBufferToImagesAndUpload } from 'src/pdf-data/pdf.middleware';
+import { PdfDataService } from 'src/pdf-data/pdf-data.service';
+import { IPdfData } from 'src/pdf-data/pdf-data.interface';
 
 @Controller('customer')
 export class CustomerController {
   constructor(
     private readonly customerService: CustomerService,
     private readonly workOrderService: WorkOrderService,
+    private readonly pdfDataService: PdfDataService,
   ) {}
   @Get()
   async getAllCustomer(): Promise<ICustomer[]> {
@@ -23,7 +30,11 @@ export class CustomerController {
   }
 
   @Post()
-  async postCustomer(@Body() customer: ICustomer): Promise<ICustomer> {
+  @UseInterceptors(FilesInterceptor('files'))
+  async postCustomer(
+    @Body() customer: ICustomer,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ): Promise<ICustomer> {
     const existingCustomer = await this.customerService.findByNid(
       customer.nid_no,
     );
@@ -45,6 +56,21 @@ export class CustomerController {
       start_time: null,
       isAssigned: false,
     });
+    const pdfData: IPdfData = {
+      pdf_1: [],
+      pdf_2: [],
+      pdf_3: [],
+      pdf_4: [],
+    };
+
+    if (files && files.length > 0) {
+      for (let i = 0; i < Math.min(files.length, 4); i++) {
+        pdfData[`pdf_${i + 1}`] = await convertPDFBufferToImagesAndUpload(
+          files[i].buffer,
+        );
+      }
+      this.pdfDataService.postPdf(pdfData);
+    }
     return createdCustomer;
   }
 
