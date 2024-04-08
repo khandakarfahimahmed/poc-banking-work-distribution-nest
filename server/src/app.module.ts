@@ -32,6 +32,10 @@ import { EmployeeRoleModule } from './employee-role/employee-role.module';
 import { EmployeeRoleController } from './employee-role/employee-role.controller';
 import { EmployeeRoleService } from './employee-role/employee-role.service';
 import { employeeRoleProviders } from './employee-role/employee-role.providers';
+import { pdfListProviders } from './docu-bucket/docu-bucket';
+import { PdfListController } from './docu-bucket/docu-bucket.controller';
+import { PdfListService } from './docu-bucket/docu-bucket.service';
+import { PdfListModule } from './docu-bucket/docu-bucket.module';
 
 @Module({
   imports: [
@@ -42,6 +46,7 @@ import { employeeRoleProviders } from './employee-role/employee-role.providers';
     WorkOrderModule,
     PdfDataModule,
     EmployeeRoleModule,
+    PdfListModule,
     ScheduleModule.forRoot(),
   ],
   controllers: [
@@ -53,6 +58,7 @@ import { employeeRoleProviders } from './employee-role/employee-role.providers';
     WorkOrderController,
     EmployeeRoleController,
     PdfDataController,
+    PdfListController,
   ],
   providers: [
     AppService,
@@ -63,6 +69,7 @@ import { employeeRoleProviders } from './employee-role/employee-role.providers';
     WorkOrderService,
     PdfDataService,
     EmployeeRoleService,
+    PdfListService,
     ...customerProviders,
     ...employeeProviders,
     ...employeeStatsProviders,
@@ -70,6 +77,7 @@ import { employeeRoleProviders } from './employee-role/employee-role.providers';
     ...workOrderProviders,
     ...pdfDataProviders,
     ...employeeRoleProviders,
+    ...pdfListProviders,
   ],
 })
 export class AppModule {}

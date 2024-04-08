@@ -8,4 +8,5 @@ export interface IWorkOrder {
   assigned_to: number;
   start_time: Date;
   isAssigned: boolean;
+  estimated_time?: number;
 }

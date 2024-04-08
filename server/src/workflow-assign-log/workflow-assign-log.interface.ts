@@ -4,4 +4,5 @@ export interface IWorkFlowAssignLog {
   employee_id: number;
   role_id: number;
   step_id: number;
+  estimated_time?: number;
 }

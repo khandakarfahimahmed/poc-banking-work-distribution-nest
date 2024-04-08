@@ -12,9 +12,9 @@ export class Customer extends Model<ICustomer> implements ICustomer {
   id: number;
   @Column
   name: string;
-  @Column({ unique: true })
+  @Column({ unique: true, type: DataTypes.BIGINT })
   nid_no: number;
-  @Column
+  @Column({ type: DataTypes.BIGINT })
   phone: number;
   @Column
   address: string;
@@ -22,10 +22,8 @@ export class Customer extends Model<ICustomer> implements ICustomer {
   email: string;
   @Column
   tin_no: string;
-  @Column
+  @Column({ type: DataTypes.BIGINT })
   birth_certificate_no: number;
-  @Column
-  account_type: string;
 }
 
 @Table({
@@ -43,6 +41,8 @@ export class CustomerAccountList
   acc_id: number;
   @Column
   customer_id: number;
+  @Column
+  acc_type: string;
 }
 
 export default { Customer, CustomerAccountList };

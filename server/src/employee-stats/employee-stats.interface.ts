@@ -1,5 +1,5 @@
 export interface IEmployeeStats {
-  id: string;
+  id: number;
   workflow_id: string;
   role_id: string;
   start_timestamp: Date;

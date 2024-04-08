@@ -8,7 +8,7 @@ import { IPdfData } from './pdf-data.interface';
   freezeTableName: true,
 })
 export class PdfData extends Model<PdfData> implements IPdfData {
-  @Column({ primaryKey: true, autoIncrement: true })
+  @Column({ primaryKey: true, autoIncrement: true, type: DataTypes.INTEGER })
   id: number;
   @Column
   acc_id: number;

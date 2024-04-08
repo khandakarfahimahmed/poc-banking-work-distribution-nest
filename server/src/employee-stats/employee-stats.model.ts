@@ -17,13 +17,13 @@ import { IEmployeeStats } from './employee-stats.interface';
 })
 export class EmployeeStats extends Model<IEmployeeStats> {
   @Column({
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     unique: true,
     allowNull: false,
     autoIncrement: true,
   })
-  id: string;
+  id: number;
 
   @Column({
     type: DataTypes.STRING,

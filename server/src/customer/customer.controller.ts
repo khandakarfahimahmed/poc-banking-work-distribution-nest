@@ -16,6 +16,7 @@ import { ICustomer } from './customer.interface';
 import { convertPDFBufferToImagesAndUpload } from 'src/pdf-data/pdf.middleware';
 import { PdfDataService } from 'src/pdf-data/pdf-data.service';
 import { IPdfData } from 'src/pdf-data/pdf-data.interface';
+import { PdfListService } from 'src/docu-bucket/docu-bucket.service';
 
 @Controller('customer')
 export class CustomerController {
@@ -23,6 +24,7 @@ export class CustomerController {
     private readonly customerService: CustomerService,
     private readonly workOrderService: WorkOrderService,
     private readonly pdfDataService: PdfDataService,
+    private readonly pdfListService: PdfListService,
   ) {}
   @Get()
   async getAllCustomer(): Promise<ICustomer[]> {
@@ -57,6 +59,7 @@ export class CustomerController {
       await this.customerService.createAccList({
         acc_id: nextAccId,
         customer_id: existingCustomer.id,
+        acc_type: 'personal',
       });
       const pdfData: IPdfData = {
         acc_id: nextAccId,
@@ -95,6 +98,7 @@ export class CustomerController {
     await this.customerService.createAccList({
       acc_id: 1,
       customer_id: createdCustomer.id,
+      acc_type: 'personal',
     });
     const pdfData: IPdfData = {
       acc_id: 1,

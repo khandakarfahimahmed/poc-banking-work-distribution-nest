@@ -13,15 +13,21 @@ import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
-import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.component';
-import { HomeComponent } from './components/home/home.component';
+import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { Workflow2Component } from './components/workflow2/workflow2.component';
 
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, DynamicTableComponent, HomeComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, NzTableModule],
+  declarations: [AppComponent, Workflow2Component],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    NzTableModule,
+    NzCardModule,
+  ],
   providers: [
     provideClientHydration(),
     { provide: NZ_I18N, useValue: en_US },

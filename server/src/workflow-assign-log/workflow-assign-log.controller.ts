@@ -15,8 +15,9 @@ export class WorkflowAssignLogController {
   constructor(
     private readonly workFlowAssignLogService: WorkFlowAssignLogService,
   ) {}
-  // @Get('assign-task')
-  // async assignTask(): Promise<any> {
-  //   return this.workFlowAssignLogService.distributeTask();
-  // }
+
+  @Get()
+  findAll(): Promise<IWorkFlowAssignLog[]> {
+    return this.workFlowAssignLogService.findAll();
+  }
 }

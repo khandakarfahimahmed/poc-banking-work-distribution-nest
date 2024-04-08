@@ -9,7 +9,7 @@ import {
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { IEmployeeRole } from './employee-role.interface';
-
+import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.model';
 @Table({
   tableName: 'role',
   timestamps: false, // Disable timestamps
@@ -42,5 +42,7 @@ export class EmployeeRole extends Model<IEmployeeRole> {
     unique: false,
   })
   team_id: string;
+  @HasMany(() => WorkFlowAssignLog)
+  workflowAssignLogs!: WorkFlowAssignLog[];
 }
 export default EmployeeRole;

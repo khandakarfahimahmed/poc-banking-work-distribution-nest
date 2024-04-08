@@ -9,6 +9,8 @@ import {
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { IEmployee } from './employee.interface';
+import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.model';
+import { EmployeeRole } from '../employee-role/employee-role.model';
 
 @Table({
   tableName: 'employee',
@@ -57,5 +59,9 @@ export class Employee extends Model<IEmployee> {
 
   @Column
   role_id: number;
+  @HasMany(() => WorkFlowAssignLog)
+  workflowAssignLogs!: WorkFlowAssignLog[];
+  @BelongsTo(() => EmployeeRole, 'role_id')
+  role!: EmployeeRole;
 }
 export default Employee;

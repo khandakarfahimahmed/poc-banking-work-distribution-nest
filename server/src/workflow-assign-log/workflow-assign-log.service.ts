@@ -4,11 +4,23 @@ import { WorkOrderService } from '../work-order/work-order.service';
 import { WorkOrder } from '../work-order/work-order.model';
 import { Employee } from '../employee/employee.model';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { EmployeeRole } from '../employee-role/employee-role.model';
+import { Op } from 'sequelize';
+import { Customer, CustomerAccountList } from '../customer/customer.model';
 
+export interface IWorkFlowAssignLogWithNames {
+  id: number;
+  acc_id: number;
+  work_order_id: number;
+  acc_type: string;
+  employee_name: string;
+  role_name: string;
+}
 @Injectable()
 export class WorkFlowAssignLogService {
   private readonly logger = new Logger(WorkFlowAssignLogService.name);
   private readonly threshold = 3;
+
   constructor(
     @Inject('WORKFLOW_ASSIGN_LOG_REPOSITORY')
     private readonly workFlowAssignLogModel: typeof WorkFlowAssignLog,
@@ -16,30 +28,85 @@ export class WorkFlowAssignLogService {
     private readonly workOrderModel: typeof WorkOrder,
     @Inject('EMPLOYEE_REPOSITORY')
     private readonly employeeModel: typeof Employee,
+    @Inject('EMPLOYEE_ROLE_REPOSITORY')
+    private readonly employeeRoleModel: typeof EmployeeRole,
+    @Inject('CUSTOMER_REPOSITORY')
+    private readonly customerModel: typeof Customer,
+    @Inject('CUSTOMER_ACCOUNT_LIST_REPOSITORY')
+    private readonly customerAccountListModel: typeof CustomerAccountList,
   ) {}
 
+  async findAll(): Promise<any[]> {
+    // Fetch all records with necessary associations
+    const result = await this.workFlowAssignLogModel.findAll({
+      include: [
+        {
+          model: WorkOrder,
+          attributes: ['acc_id', 'acc_type'],
+          as: 'workOrder',
+        },
+        {
+          model: Employee,
+          attributes: ['name'],
+          as: 'employee',
+        },
+        {
+          model: EmployeeRole,
+          attributes: ['name'],
+          as: 'role',
+        },
+      ],
+    });
+
+    // Group records by acc_id
+    const groupedData: { [key: number]: any } = {};
+    result.forEach((log) => {
+      const accId = log.workOrder.acc_id;
+      if (!groupedData[accId]) {
+        groupedData[accId] = {
+          acc_id: accId,
+          acc_type: log.workOrder.acc_type,
+          Reviewer: null,
+          Maker: null,
+          Checker: null,
+        };
+      }
+      if (log.role.name === 'reviewer') {
+        groupedData[accId].Reviewer = log.employee.name;
+      } else if (log.role.name === 'maker') {
+        groupedData[accId].Maker = log.employee.name;
+      } else if (log.role.name === 'checker') {
+        groupedData[accId].Checker = log.employee.name;
+      }
+    });
+
+    // Convert grouped data to array
+    const formattedResult = Object.values(groupedData);
+
+    return formattedResult;
+  }
+
   async assignTask(
-    workOrderId: number,
-    roleId: number,
-    employeeId: number,
-    stepId: number,
+    workOrder_id: number,
+    role_id: number,
+    employee_id: number,
+    step_id: number,
   ): Promise<void> {
     try {
       await this.workFlowAssignLogModel.create({
-        work_order_id: workOrderId,
-        role_id: roleId,
-        employee_id: employeeId,
-        step_id: stepId,
+        work_order_id: workOrder_id,
+        role_id: role_id,
+        employee_id: employee_id,
+        step_id: step_id,
       });
-      console.log(`Task ${workOrderId} assigned to ${employeeId}`);
+      console.log(`Task ${workOrder_id} assigned to ${employee_id}`);
     } catch (error) {
       console.log(
-        `Error assigning task ${workOrderId} to ${employeeId}:`,
+        `Error assigning task ${workOrder_id} to ${employee_id}:`,
         error,
       );
     }
   }
-
   async updateWorkOrder(
     id: number,
     status: string,
@@ -65,68 +132,94 @@ export class WorkFlowAssignLogService {
 
   async distributeTask(): Promise<void> {
     try {
-      // Find all active employees who are not admins
-      const activeEmployees = await this.employeeModel.findAll({
-        where: { active: true, admin: false },
+      const activeEmployeesReviewer = await this.employeeModel.findAll({
+        where: { active: true, admin: false, role_id: 2 },
       });
+      for (let i = 0; i < activeEmployeesReviewer.length; i++) {
+        const taskForReviwer = await this.workOrderModel.findAll({
+          where: {
+            status: 'reviewer',
+            isAssigned: false,
+          },
+        });
 
-      // Fetch tasks for reviewers, makers, and checkers
-      const tasksByRole = await Promise.all([
-        this.workOrderModel.findAll({
-          where: { status: 'reviewer', isAssigned: false },
-        }),
-        this.workOrderModel.findAll({
-          where: { status: 'maker', isAssigned: false },
-        }),
-        this.workOrderModel.findAll({
-          where: { status: 'checker', isAssigned: false },
-        }),
-      ]);
-
-      // Distribute tasks for each role
-      await Promise.all(
-        activeEmployees.map(async (employee) => {
-          const roleId = employee.role_id;
-          const employeeId = employee.id;
-
-          // Check if the employee is eligible for assignment based on role
-          if (roleId === 2 && tasksByRole[0].length > 0) {
-            // checks if tasks are availabe or not
-            await this.assignAndExecute(tasksByRole[0], roleId, employeeId, 1);
-          } else if (roleId === 3 && tasksByRole[1].length > 0) {
-            await this.assignAndExecute(tasksByRole[1], roleId, employeeId, 2);
-          } else if (roleId === 4 && tasksByRole[2].length > 0) {
-            await this.assignAndExecute(tasksByRole[2], roleId, employeeId, 3);
+        for (let j = 0; j < taskForReviwer.length; j++) {
+          if (j < this.threshold) {
+            await this.assignTask(
+              taskForReviwer[j].id,
+              activeEmployeesReviewer[i].role_id,
+              activeEmployeesReviewer[i].id,
+              1,
+            );
+            await this.updateWorkOrder(
+              taskForReviwer[j].id,
+              'reviewer',
+              activeEmployeesReviewer[i].id,
+            );
           }
-        }),
-      );
+        }
+      }
+      const activeEmployeesMaker = await this.employeeModel.findAll({
+        where: { active: true, admin: false, role_id: 3 },
+      });
+      for (let i = 0; i < activeEmployeesMaker.length; i++) {
+        const taskForMaker = await this.workOrderModel.findAll({
+          where: {
+            status: 'maker',
+            isAssigned: false,
+          },
+        });
 
+        for (let j = 0; j < taskForMaker.length; j++) {
+          if (j < this.threshold) {
+            await this.assignTask(
+              taskForMaker[j].id,
+              activeEmployeesMaker[i].role_id,
+              activeEmployeesMaker[i].id,
+              1,
+            );
+            await this.updateWorkOrder(
+              taskForMaker[j].id,
+              'maker',
+              activeEmployeesMaker[i].id,
+            );
+          }
+        }
+      }
+      const activeEmployeesChecker = await this.employeeModel.findAll({
+        where: { active: true, admin: false, role_id: 4 },
+      });
+      for (let i = 0; i < activeEmployeesChecker.length; i++) {
+        const taskForChecker = await this.workOrderModel.findAll({
+          where: {
+            status: 'checker',
+            isAssigned: false,
+          },
+        });
+
+        for (let j = 0; j < taskForChecker.length; j++) {
+          if (j < this.threshold) {
+            await this.assignTask(
+              taskForChecker[j].id,
+              activeEmployeesChecker[i].role_id,
+              activeEmployeesChecker[i].id,
+              1,
+            );
+            await this.updateWorkOrder(
+              taskForChecker[j].id,
+              'maker',
+              activeEmployeesChecker[i].id,
+            );
+          }
+        }
+      }
       console.log('Tasks distributed successfully.');
     } catch (error) {
       console.error('Error distributing tasks:', error);
     }
   }
-
-  async assignAndExecute(
-    tasks: any[],
-    roleId: number,
-    employeeId: number,
-    stepId: number,
-  ) {
-    // Filter tasks to meet threshold and assign to employee
-    const eligibleTasks = tasks.slice(0, this.threshold);
-    await Promise.all(
-      eligibleTasks.map(async (task) => {
-        await Promise.all([
-          this.assignTask(task.id, roleId, employeeId, stepId),
-          this.updateWorkOrder(task.id, task.status, employeeId),
-        ]);
-      }),
-    );
-  }
-
-  //EVERY_30_MINUTES
-  @Cron(CronExpression.EVERY_30_MINUTES, { name: 'distributeTask' })
+  // EVERY_30_MINUTES
+  // @Cron(CronExpression.EVERY_MINUTE, { name: 'distributeTask' })
   distributeTaskByCron() {
     this.logger.debug('Running distributeTask cron job...');
     return this.distributeTask();
