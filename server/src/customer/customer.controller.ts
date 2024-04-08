@@ -46,20 +46,11 @@ export class CustomerController {
 
       nextAccId = maxId + 1;
 
-      await this.workOrderService.createWorkOrder({
-        acc_id: nextAccId,
-        customer_id: existingCustomer.id,
-        type: 'Account opening',
-        acc_type: 'personal',
-        status: 'reviewer',
-        assigned_to: null,
-        start_time: null,
-        isAssigned: false,
-      });
       await this.customerService.createAccList({
         acc_id: nextAccId,
         customer_id: existingCustomer.id,
         acc_type: 'personal',
+        status: 'need approval',
       });
       const pdfData: IPdfData = {
         acc_id: nextAccId,
@@ -85,20 +76,11 @@ export class CustomerController {
     }
 
     const createdCustomer = await this.customerService.create(customer);
-    await this.workOrderService.createWorkOrder({
-      acc_id: 1,
-      customer_id: createdCustomer.id,
-      type: 'Account opening',
-      acc_type: 'personal',
-      status: 'reviewer',
-      assigned_to: null,
-      start_time: null,
-      isAssigned: false,
-    });
     await this.customerService.createAccList({
       acc_id: 1,
       customer_id: createdCustomer.id,
       acc_type: 'personal',
+      status: 'need approval',
     });
     const pdfData: IPdfData = {
       acc_id: 1,

@@ -16,7 +16,6 @@ export class PdfList extends Model<PdfList> implements IPdfList {
   customer_id: number;
   @Column // Adjust column type for array of strings
   pdf_id: number;
-
   @Column(DataTypes.ARRAY(DataTypes.STRING)) // Adjust column type for array of strings
   pdf_values: string[];
 }
