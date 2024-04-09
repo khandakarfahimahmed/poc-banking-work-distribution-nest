@@ -8,7 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { IWorkFlowAssignLog } from './workflow-assign-log.interface';
-import { WorkOrder } from '../reviewer-work-order/reviewer-work-order.model';
+
 import { EmployeeRole } from '../employee-role/employee-role.model';
 import { Employee } from '../employee/employee.model';
 
@@ -24,7 +24,7 @@ export class WorkFlowAssignLog
   @Column({ primaryKey: true, autoIncrement: true, type: DataTypes.INTEGER })
   id: number;
 
-  @ForeignKey(() => WorkOrder)
+  // @ForeignKey(() => WorkOrder)
   @Column
   work_order_id: number;
 
@@ -39,8 +39,8 @@ export class WorkFlowAssignLog
   @Column({ defaultValue: null })
   estimated_time: number | null;
 
-  @BelongsTo(() => WorkOrder)
-  workOrder!: WorkOrder;
+  // @BelongsTo(() => WorkOrder)
+  // workOrder!: WorkOrder;
 
   @BelongsTo(() => Employee)
   employee!: Employee;

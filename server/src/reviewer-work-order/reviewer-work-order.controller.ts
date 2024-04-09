@@ -11,7 +11,7 @@ import { IReviewerWorkOrder } from './reviewer-work-order.interface';
 import { EmployeeRoleService } from 'src/employee-role/employee-role.service';
 import { IEmployeeRole } from 'src/employee-role/employee-role.interface';
 
-@Controller('work-order')
+@Controller('reviewer-work-order')
 export class ReviewerWorkOrderController {
   constructor(
     private readonly workOrderService: ReviewerWorkOrderService,

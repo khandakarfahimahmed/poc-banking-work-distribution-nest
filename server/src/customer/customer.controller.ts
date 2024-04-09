@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
-import { WorkOrderService } from '../reviewer-work-order/reviewer-work-order.service';
+
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ICustomer } from './customer.interface';
 import { convertPDFBufferToImagesAndUpload } from 'src/pdf-data/pdf.middleware';
@@ -22,7 +22,7 @@ import { PdfListService } from 'src/docu-bucket/docu-bucket.service';
 export class CustomerController {
   constructor(
     private readonly customerService: CustomerService,
-    private readonly workOrderService: WorkOrderService,
+
     private readonly pdfDataService: PdfDataService,
     private readonly pdfListService: PdfListService,
   ) {}

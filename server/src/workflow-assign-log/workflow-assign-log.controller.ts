@@ -16,8 +16,8 @@ export class WorkflowAssignLogController {
     private readonly workFlowAssignLogService: WorkFlowAssignLogService,
   ) {}
 
-  @Get()
-  findAll(): Promise<IWorkFlowAssignLog[]> {
-    return this.workFlowAssignLogService.findAll();
-  }
+  // @Get()
+  // findAll(): Promise<IWorkFlowAssignLog[]> {
+  //   return this.workFlowAssignLogService.findAll();
+  // }
 }

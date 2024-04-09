@@ -12,7 +12,7 @@ import { CustomerService } from './customer/customer.service';
 import { EmployeeService } from './employee/employee.service';
 import { EmployeeStatsService } from './employee-stats/employee-stats.service';
 import { WorkFlowAssignLogService } from './workflow-assign-log/workflow-assign-log.service';
-import { WorkOrderService } from './reviewer-work-order/reviewer-work-order.service';
+import { ReviewerWorkOrderService } from './reviewer-work-order/reviewer-work-order.service';
 
 import { customerProviders } from './customer/customer.providers';
 import { employeeProviders } from './employee/employee.providers';
@@ -22,7 +22,7 @@ import { workOrderProviders } from './reviewer-work-order/reviewer-work-order.pr
 import { EmployeeController } from './employee/employee.controller';
 import { EmployeeStatsController } from './employee-stats/employee-stats.controller';
 import { WorkflowAssignLogController } from './workflow-assign-log/workflow-assign-log.controller';
-import { WorkOrderController } from './reviewer-work-order/reviewer-work-order.controller';
+import { ReviewerWorkOrderController } from './reviewer-work-order/reviewer-work-order.controller';
 import { ScheduleModule } from '@nestjs/schedule';
 import { PdfDataModule } from './pdf-data/pdf-data.module';
 import { PdfDataController } from './pdf-data/pdf-data.controller';
@@ -55,7 +55,7 @@ import { PdfListModule } from './docu-bucket/docu-bucket.module';
     EmployeeController,
     EmployeeStatsController,
     WorkflowAssignLogController,
-    WorkOrderController,
+    ReviewerWorkOrderController,
     EmployeeRoleController,
     PdfDataController,
     PdfListController,
@@ -66,7 +66,7 @@ import { PdfListModule } from './docu-bucket/docu-bucket.module';
     EmployeeService,
     EmployeeStatsService,
     WorkFlowAssignLogService,
-    WorkOrderService,
+    ReviewerWorkOrderService,
     PdfDataService,
     EmployeeRoleService,
     PdfListService,

@@ -5,7 +5,7 @@ import { CustomerController } from './customer.controller';
 import { customerProviders } from './customer.providers';
 import { WorkOrderModule } from 'src/reviewer-work-order/reviewer-work-order.module';
 import { workOrderProviders } from '../reviewer-work-order/reviewer-work-order.providers';
-import { WorkOrderService } from 'src/reviewer-work-order/reviewer-work-order.service';
+
 import { PdfDataModule } from 'src/pdf-data/pdf-data.module';
 import { PdfDataService } from 'src/pdf-data/pdf-data.service';
 import { pdfDataProviders } from 'src/pdf-data/pdf-data.providers';
@@ -17,7 +17,6 @@ import { pdfListProviders } from 'src/docu-bucket/docu-bucket.providers';
   controllers: [CustomerController],
   providers: [
     CustomerService,
-    WorkOrderService,
     PdfDataService,
     PdfListService,
     ...customerProviders,

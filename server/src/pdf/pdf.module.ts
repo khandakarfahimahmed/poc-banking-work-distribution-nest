@@ -10,4 +10,4 @@ import { pdfProviders } from './pdf.providers';
   controllers: [PdfController],
   providers: [PdfService, ...pdfProviders],
 })
-export class PdfListModule {}
+export class PdfModule {}
