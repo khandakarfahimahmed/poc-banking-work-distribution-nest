@@ -10,7 +10,7 @@ import { PdfDataModule } from 'src/pdf-data/pdf-data.module';
 import { PdfDataService } from 'src/pdf-data/pdf-data.service';
 import { pdfDataProviders } from 'src/pdf-data/pdf-data.providers';
 import { PdfListService } from 'src/docu-bucket/docu-bucket.service';
-import { pdfListProviders } from 'src/docu-bucket/docu-bucket';
+import { pdfListProviders } from 'src/docu-bucket/docu-bucket.providers';
 
 @Module({
   imports: [DatabaseModule, WorkOrderModule, PdfDataModule],

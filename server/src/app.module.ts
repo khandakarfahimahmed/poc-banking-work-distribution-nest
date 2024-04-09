@@ -32,7 +32,7 @@ import { EmployeeRoleModule } from './employee-role/employee-role.module';
 import { EmployeeRoleController } from './employee-role/employee-role.controller';
 import { EmployeeRoleService } from './employee-role/employee-role.service';
 import { employeeRoleProviders } from './employee-role/employee-role.providers';
-import { pdfListProviders } from './docu-bucket/docu-bucket';
+import { pdfListProviders } from './docu-bucket/docu-bucket.providers';
 import { PdfListController } from './docu-bucket/docu-bucket.controller';
 import { PdfListService } from './docu-bucket/docu-bucket.service';
 import { PdfListModule } from './docu-bucket/docu-bucket.module';

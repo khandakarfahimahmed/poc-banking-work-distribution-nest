@@ -43,6 +43,8 @@ export class CustomerAccountList
   customer_id: number;
   @Column
   acc_type: string;
+  @Column
+  status: string;
 }
 
 export default { Customer, CustomerAccountList };

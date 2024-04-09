@@ -12,4 +12,5 @@ export interface ICustomerAccountNo {
   acc_id: number;
   customer_id: number;
   acc_type: string;
+  status: string;
 }

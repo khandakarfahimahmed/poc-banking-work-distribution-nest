@@ -8,6 +8,7 @@ import { EmployeeStats } from '../employee-stats/employee-stats.model';
 import PdfData from 'src/pdf-data/pdf-data.model';
 import EmployeeRole from 'src/employee-role/employee-role.model';
 import PdfList from 'src/docu-bucket/docu-bucket.model';
+import Pdf from 'src/pdf/pdf.model';
 
 export const databaseProviders = [
   {
@@ -34,10 +35,11 @@ export const databaseProviders = [
         WorkFlowAssignLog,
         Employee,
         EmployeeStats,
-        PdfData,
+        // PdfData,
         CustomerAccountList,
         EmployeeRole,
         PdfList,
+        Pdf,
       ]);
       await sequelize.sync();
       return sequelize;
