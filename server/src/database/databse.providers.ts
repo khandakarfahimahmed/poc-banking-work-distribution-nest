@@ -1,7 +1,7 @@
 require('dotenv').config();
 import { Sequelize } from 'sequelize-typescript';
 import { Customer, CustomerAccountList } from '../customer/customer.model';
-import { WorkOrder } from '../work-order/work-order.model';
+import { ReviewerWorkOrder } from '../reviewer-work-order/reviewer-work-order.model';
 import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.model';
 import { Employee } from '../employee/employee.model';
 import { EmployeeStats } from '../employee-stats/employee-stats.model';
@@ -31,7 +31,7 @@ export const databaseProviders = [
       });
       sequelize.addModels([
         Customer,
-        WorkOrder,
+        ReviewerWorkOrder,
         WorkFlowAssignLog,
         Employee,
         EmployeeStats,

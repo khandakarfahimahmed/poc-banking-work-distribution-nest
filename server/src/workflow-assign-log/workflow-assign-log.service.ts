@@ -1,7 +1,7 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { WorkFlowAssignLog } from './workflow-assign-log.model';
-import { WorkOrderService } from '../work-order/work-order.service';
-import { WorkOrder } from '../work-order/work-order.model';
+import { WorkOrderService } from '../reviewer-work-order/reviewer-work-order.service';
+import { WorkOrder } from '../reviewer-work-order/reviewer-work-order.model';
 import { Employee } from '../employee/employee.model';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { EmployeeRole } from '../employee-role/employee-role.model';

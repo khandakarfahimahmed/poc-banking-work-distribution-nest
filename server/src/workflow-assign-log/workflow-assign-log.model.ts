@@ -8,7 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { IWorkFlowAssignLog } from './workflow-assign-log.interface';
-import { WorkOrder } from '../work-order/work-order.model';
+import { WorkOrder } from '../reviewer-work-order/reviewer-work-order.model';
 import { EmployeeRole } from '../employee-role/employee-role.model';
 import { Employee } from '../employee/employee.model';
 

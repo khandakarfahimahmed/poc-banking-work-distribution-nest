@@ -1,7 +1,7 @@
 import { WorkFlowAssignLog } from './workflow-assign-log.model';
 import { WorkflowAssignLogController } from './workflow-assign-log.controller';
-import { workOrderProviders } from '../work-order/work-order.providers';
-import { WorkOrder } from '../work-order/work-order.model';
+import { workOrderProviders } from '../reviewer-work-order/reviewer-work-order.providers';
+import { WorkOrder } from '../reviewer-work-order/reviewer-work-order.model';
 import { Employee } from '../employee/employee.model';
 import { EmployeeRole } from '../employee-role/employee-role.model';
 import { Customer, CustomerAccountList } from '../customer/customer.model';

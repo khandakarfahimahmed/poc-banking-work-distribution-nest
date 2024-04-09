@@ -1,5 +1,5 @@
 import { Customer, CustomerAccountList } from './customer.model';
-import { WorkOrder } from '../work-order/work-order.model';
+import { WorkOrder } from '../reviewer-work-order/reviewer-work-order.model';
 import { PdfData } from '../pdf-data/pdf-data.model';
 
 export const customerProviders = [

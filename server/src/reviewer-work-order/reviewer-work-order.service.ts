@@ -1,17 +1,19 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { IWorkOrder } from './work-order.interface';
-import { WorkOrder } from './work-order.model';
+import { IReviewerWorkOrder } from './reviewer-work-order.interface';
+import { ReviewerWorkOrder } from './reviewer-work-order.model';
 import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.model';
 
 @Injectable()
-export class WorkOrderService {
+export class ReviewerWorkOrderService {
   constructor(
     @Inject('WORKORDER_REPOSITORY')
-    private readonly workOrderModel: typeof WorkOrder,
+    private readonly workOrderModel: typeof ReviewerWorkOrder,
     @Inject('WORKFLOW_ASSIGN_LOG_REPOSITORY')
     private readonly workFlowAssignLogModel: typeof WorkFlowAssignLog,
   ) {}
-  async createWorkOrder(workOrder: IWorkOrder): Promise<WorkOrder> {
+  async createWorkOrder(
+    workOrder: IReviewerWorkOrder,
+  ): Promise<ReviewerWorkOrder> {
     return this.workOrderModel.create(workOrder);
   }
   async updateStatusReviewer(id: number): Promise<void> {
@@ -27,7 +29,7 @@ export class WorkOrderService {
     );
   }
 
-  async findAllWorkOrder(): Promise<WorkOrder[]> {
+  async findAllWorkOrder(): Promise<ReviewerWorkOrder[]> {
     return this.workOrderModel.findAll();
   }
   async updateWorkOrder(

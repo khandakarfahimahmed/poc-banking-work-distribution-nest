@@ -6,23 +6,23 @@ import { CustomerModule } from './customer/customer.module';
 import { EmployeeModule } from './employee/employee.module';
 import { EmployeeStatsModule } from './employee-stats/employee-stats.module';
 import { WorkFlowAssignLogModule } from './workflow-assign-log/workflow-assign-log.module';
-import { WorkOrderModule } from './work-order/work-order.module';
+import { WorkOrderModule } from './reviewer-work-order/reviewer-work-order.module';
 
 import { CustomerService } from './customer/customer.service';
 import { EmployeeService } from './employee/employee.service';
 import { EmployeeStatsService } from './employee-stats/employee-stats.service';
 import { WorkFlowAssignLogService } from './workflow-assign-log/workflow-assign-log.service';
-import { WorkOrderService } from './work-order/work-order.service';
+import { WorkOrderService } from './reviewer-work-order/reviewer-work-order.service';
 
 import { customerProviders } from './customer/customer.providers';
 import { employeeProviders } from './employee/employee.providers';
 import { employeeStatsProviders } from './employee-stats/employee-stats.providers';
 import { workFlowAssignLogProviders } from './workflow-assign-log/workflow-assign-log.providers';
-import { workOrderProviders } from './work-order/work-order.providers';
+import { workOrderProviders } from './reviewer-work-order/reviewer-work-order.providers';
 import { EmployeeController } from './employee/employee.controller';
 import { EmployeeStatsController } from './employee-stats/employee-stats.controller';
 import { WorkflowAssignLogController } from './workflow-assign-log/workflow-assign-log.controller';
-import { WorkOrderController } from './work-order/work-order.controller';
+import { WorkOrderController } from './reviewer-work-order/reviewer-work-order.controller';
 import { ScheduleModule } from '@nestjs/schedule';
 import { PdfDataModule } from './pdf-data/pdf-data.module';
 import { PdfDataController } from './pdf-data/pdf-data.controller';

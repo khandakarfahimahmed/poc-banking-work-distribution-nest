@@ -3,10 +3,10 @@ import { WorkFlowAssignLogService } from './workflow-assign-log.service';
 import { WorkflowAssignLogController } from './workflow-assign-log.controller';
 import { DatabaseModule } from 'src/database/database.module';
 import { workFlowAssignLogProviders } from './workflow-assign-log.providers';
-import { workOrderProviders } from '../work-order/work-order.providers';
+import { workOrderProviders } from '../reviewer-work-order/reviewer-work-order.providers';
 import { employeeProviders } from '../employee/employee.providers';
-import { WorkOrderService } from '../work-order/work-order.service'; // Import WorkOrderService
-import { WorkOrderModule } from 'src/work-order/work-order.module';
+import { WorkOrderService } from '../reviewer-work-order/reviewer-work-order.service'; // Import WorkOrderService
+import { WorkOrderModule } from 'src/reviewer-work-order/reviewer-work-order.module';
 import { EmployeeModule } from 'src/employee/employee.module';
 
 @Module({

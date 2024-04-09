@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
-import { WorkOrderService } from '../work-order/work-order.service';
+import { WorkOrderService } from '../reviewer-work-order/reviewer-work-order.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ICustomer } from './customer.interface';
 import { convertPDFBufferToImagesAndUpload } from 'src/pdf-data/pdf.middleware';
