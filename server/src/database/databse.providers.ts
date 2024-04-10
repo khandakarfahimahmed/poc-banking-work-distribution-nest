@@ -11,6 +11,7 @@ import PdfList from 'src/docu-bucket/docu-bucket.model';
 import Pdf from 'src/pdf/pdf.model';
 import MainWorkOrder from 'src/main-work-order/main-work-order.model';
 import FieldData from 'src/field-data/field-data.model';
+import FieldTable from 'src/field-table/field-table.model';
 
 export const databaseProviders = [
   {
@@ -44,6 +45,7 @@ export const databaseProviders = [
         Pdf,
         MainWorkOrder,
         FieldData,
+        FieldTable,
       ]);
       await sequelize.sync();
       return sequelize;
