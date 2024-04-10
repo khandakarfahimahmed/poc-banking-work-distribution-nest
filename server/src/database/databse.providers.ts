@@ -10,6 +10,7 @@ import EmployeeRole from 'src/employee-role/employee-role.model';
 import PdfList from 'src/docu-bucket/docu-bucket.model';
 import Pdf from 'src/pdf/pdf.model';
 import MainWorkOrder from 'src/main-work-order/main-work-order.model';
+import FieldData from 'src/field-data/field-data.model';
 
 export const databaseProviders = [
   {
@@ -42,6 +43,7 @@ export const databaseProviders = [
         PdfList,
         Pdf,
         MainWorkOrder,
+        FieldData,
       ]);
       await sequelize.sync();
       return sequelize;

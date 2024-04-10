@@ -36,6 +36,19 @@ import { pdfListProviders } from './docu-bucket/docu-bucket.providers';
 import { PdfListController } from './docu-bucket/docu-bucket.controller';
 import { PdfListService } from './docu-bucket/docu-bucket.service';
 import { PdfListModule } from './docu-bucket/docu-bucket.module';
+import Pdf from './pdf/pdf.model';
+import MainWorkOrder from './main-work-order/main-work-order.model';
+import { pdfProviders } from './pdf/pdf.providers';
+import { mainworkOrderProviders } from './main-work-order/main-work-order.providers';
+import { PdfController } from './pdf/pdf.controller';
+import { MainWorkOrderController } from './main-work-order/main-work-order.controller';
+import { PdfModule } from './pdf/pdf.module';
+import { MainWorkOrderModule } from './main-work-order/main-work-order.module';
+import { PdfService } from './pdf/pdf.service';
+import { MainWorkOrderService } from './main-work-order/main-work-order.service';
+import { FieldDataController } from './field-data/field-data.controller';
+import { FieldDataService } from './field-data/field-data.service';
+import { fieldDataProviders } from './field-data/field-data.providers';
 
 @Module({
   imports: [
@@ -47,6 +60,8 @@ import { PdfListModule } from './docu-bucket/docu-bucket.module';
     PdfDataModule,
     EmployeeRoleModule,
     PdfListModule,
+    PdfModule,
+    MainWorkOrderModule,
     ScheduleModule.forRoot(),
   ],
   controllers: [
@@ -59,6 +74,9 @@ import { PdfListModule } from './docu-bucket/docu-bucket.module';
     EmployeeRoleController,
     PdfDataController,
     PdfListController,
+    PdfController,
+    MainWorkOrderController,
+    FieldDataController,
   ],
   providers: [
     AppService,
@@ -70,6 +88,9 @@ import { PdfListModule } from './docu-bucket/docu-bucket.module';
     PdfDataService,
     EmployeeRoleService,
     PdfListService,
+    PdfService,
+    MainWorkOrderService,
+    FieldDataService,
     ...customerProviders,
     ...employeeProviders,
     ...employeeStatsProviders,
@@ -78,6 +99,9 @@ import { PdfListModule } from './docu-bucket/docu-bucket.module';
     ...pdfDataProviders,
     ...employeeRoleProviders,
     ...pdfListProviders,
+    ...pdfProviders,
+    ...mainworkOrderProviders,
+    ...fieldDataProviders,
   ],
 })
 export class AppModule {}
