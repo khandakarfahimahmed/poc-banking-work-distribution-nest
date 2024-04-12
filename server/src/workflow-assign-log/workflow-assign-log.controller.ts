@@ -15,9 +15,4 @@ export class WorkflowAssignLogController {
   constructor(
     private readonly workFlowAssignLogService: WorkFlowAssignLogService,
   ) {}
-
-  // @Get()
-  // findAll(): Promise<IWorkFlowAssignLog[]> {
-  //   return this.workFlowAssignLogService.findAll();
-  // }
 }

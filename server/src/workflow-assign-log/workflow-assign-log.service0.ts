@@ -117,3 +117,52 @@
 //     return this.distributeTask();
 //   }
 // }
+// async findAll(): Promise<any[]> {
+//   // Fetch all records with necessary associations
+//   const result = await this.workFlowAssignLogModel.findAll({
+//     include: [
+//       {
+//         model: WorkOrder,
+//         attributes: ['acc_id', 'acc_type'],
+//         as: 'workOrder',
+//       },
+//       {
+//         model: Employee,
+//         attributes: ['name'],
+//         as: 'employee',
+//       },
+//       {
+//         model: EmployeeRole,
+//         attributes: ['name'],
+//         as: 'role',
+//       },
+//     ],
+//   });
+
+//   // Group records by acc_id
+//   const groupedData: { [key: number]: any } = {};
+//   result.forEach((log) => {
+//     const accId = log.workOrder.acc_id;
+//     if (!groupedData[accId]) {
+//       groupedData[accId] = {
+//         acc_id: accId,
+//         acc_type: log.workOrder.acc_type,
+//         Reviewer: null,
+//         Maker: null,
+//         Checker: null,
+//       };
+//     }
+//     if (log.role.name === 'reviewer') {
+//       groupedData[accId].Reviewer = log.employee.name;
+//     } else if (log.role.name === 'maker') {
+//       groupedData[accId].Maker = log.employee.name;
+//     } else if (log.role.name === 'checker') {
+//       groupedData[accId].Checker = log.employee.name;
+//     }
+//   });
+
+//   // Convert grouped data to array
+//   const formattedResult = Object.values(groupedData);
+
+//   return formattedResult;
+// }

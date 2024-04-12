@@ -61,7 +61,5 @@ export class Employee extends Model<IEmployee> {
   role_id: number;
   @HasMany(() => WorkFlowAssignLog)
   workflowAssignLogs!: WorkFlowAssignLog[];
-  @BelongsTo(() => EmployeeRole, 'role_id')
-  role!: EmployeeRole;
 }
 export default Employee;

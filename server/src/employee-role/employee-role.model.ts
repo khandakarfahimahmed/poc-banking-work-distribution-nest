@@ -42,7 +42,7 @@ export class EmployeeRole extends Model<IEmployeeRole> {
     unique: false,
   })
   team_id: string;
-  @HasMany(() => WorkFlowAssignLog)
-  workflowAssignLogs!: WorkFlowAssignLog[];
+  // @HasMany(() => WorkFlowAssignLog)
+  // workflowAssignLogs!: WorkFlowAssignLog[];
 }
 export default EmployeeRole;

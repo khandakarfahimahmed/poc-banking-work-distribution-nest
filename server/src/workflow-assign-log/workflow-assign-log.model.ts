@@ -28,25 +28,15 @@ export class WorkFlowAssignLog
   @Column
   work_order_id: number;
 
+  @Column
+  field_data_id: number;
+
   @ForeignKey(() => Employee)
   @Column
-  employee_id: number;
-  @ForeignKey(() => EmployeeRole)
-  @Column
-  role_id: number;
-  @Column
-  step_id: number;
-  @Column({ defaultValue: null })
-  estimated_time: number | null;
-
-  // @BelongsTo(() => WorkOrder)
-  // workOrder!: WorkOrder;
+  assigned_to: number;
 
   @BelongsTo(() => Employee)
   employee!: Employee;
-
-  @BelongsTo(() => EmployeeRole)
-  role!: EmployeeRole;
 }
 
 export default WorkFlowAssignLog;
