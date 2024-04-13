@@ -1,8 +1,8 @@
-import { PdfList } from './docu-bucket.model';
+import { DocuBucket } from './docu-bucket.model';
 
-export const pdfListProviders = [
+export const docuBucketProviders = [
   {
-    provide: 'PDF_List_REPOSITORY',
-    useValue: PdfList,
+    provide: 'DOCU_BUCKET_REPOSITORY',
+    useValue: DocuBucket,
   },
 ];

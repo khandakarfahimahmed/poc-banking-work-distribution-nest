@@ -1,15 +1,16 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { IPdfList } from './docu-bucket.interface';
-import { PdfList } from './docu-bucket.model';
+import { IDocuBucket } from './docu-bucket.interface';
+import { DocuBucket } from './docu-bucket.model';
+import { DocubucketModule } from './docu-bucket.module';
 
 @Injectable()
-export class PdfListService {
+export class DocubucketService {
   constructor(
-    @Inject('PDF_List_REPOSITORY')
-    private readonly pdflistModel: typeof PdfList,
+    @Inject('DOCU_BUCKET_REPOSITORY')
+    private readonly docBucketModel: typeof DocuBucket,
   ) {}
 
-  async postPdf(pdf: IPdfList): Promise<any> {
-    return await this.pdflistModel.create(pdf);
+  async postPdf(pdf: IDocuBucket): Promise<any> {
+    return await this.docBucketModel.create(pdf);
   }
 }

@@ -16,7 +16,7 @@ import { ICustomer } from './customer.interface';
 import { convertPDFBufferToImagesAndUpload } from 'src/pdf-data/pdf.middleware';
 import { PdfDataService } from 'src/pdf-data/pdf-data.service';
 import { IPdfData } from 'src/pdf-data/pdf-data.interface';
-import { PdfListService } from 'src/docu-bucket/docu-bucket.service';
+import { DocubucketService } from 'src/docu-bucket/docu-bucket.service';
 
 @Controller('customer')
 export class CustomerController {
@@ -24,7 +24,7 @@ export class CustomerController {
     private readonly customerService: CustomerService,
 
     private readonly pdfDataService: PdfDataService,
-    private readonly pdfListService: PdfListService,
+    private readonly docubucketService: DocubucketService,
   ) {}
   @Get()
   async getAllCustomer(): Promise<ICustomer[]> {
@@ -62,9 +62,9 @@ export class CustomerController {
       for (const file of files) {
         // For example, you can save each file to the server or process it in some other way
         // For demonstration purposes, let's log the filename and its size
-        console.log(
-          `Received file: ${file.originalname}, size: ${file.size} bytes`,
-        );
+        const filenameParts = file.originalname.split('.');
+        const filename = filenameParts[0];
+        console.log(`Received file: ${filename} size: ${file.size} bytes`);
       }
       if (files && files.length > 0) {
         for (let i = 0; i < Math.min(files.length, 4); i++) {

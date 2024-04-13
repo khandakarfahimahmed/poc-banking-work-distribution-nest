@@ -1,7 +1,8 @@
 import { Customer, CustomerAccountList } from './customer.model';
 
-import { PdfData } from '../pdf-data/pdf-data.model';
+import { Pdf } from 'src/pdf/pdf.model';
 
+import { DocuBucket } from 'src/docu-bucket/docu-bucket.model';
 export const customerProviders = [
   {
     provide: 'CUSTOMER_REPOSITORY',
@@ -9,11 +10,17 @@ export const customerProviders = [
   },
 
   {
-    provide: 'PDF_DATA_REPOSITORY',
-    useValue: PdfData,
-  },
-  {
     provide: 'CUSTOMER_ACCOUNT_REPOSITORY',
     useValue: CustomerAccountList,
+  },
+
+  {
+    provide: 'PDF_REPOSITORY',
+    useValue: Pdf,
+  },
+
+  {
+    provide: 'DOCUBUCKET_REPOSITORY',
+    useValue: DocuBucket,
   },
 ];

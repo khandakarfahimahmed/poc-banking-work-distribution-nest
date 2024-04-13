@@ -1,13 +1,14 @@
 import { Sequelize, Model, Column, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { IPdfList } from './docu-bucket.interface';
+import { IDocuBucket } from './docu-bucket.interface';
+import { DocubucketModule } from './docu-bucket.module';
 
 @Table({
   tableName: 'docu-bucket',
   timestamps: true,
   freezeTableName: true,
 })
-export class PdfList extends Model<PdfList> implements IPdfList {
+export class DocuBucket extends Model<DocuBucket> implements IDocuBucket {
   @Column({ primaryKey: true, autoIncrement: true, type: DataTypes.INTEGER })
   id: number;
   @Column
@@ -20,4 +21,4 @@ export class PdfList extends Model<PdfList> implements IPdfList {
   pdf_values: string[];
 }
 
-export default PdfList;
+export default DocuBucket;

@@ -9,8 +9,8 @@ import { workOrderProviders } from '../reviewer-work-order/reviewer-work-order.p
 import { PdfDataModule } from 'src/pdf-data/pdf-data.module';
 import { PdfDataService } from 'src/pdf-data/pdf-data.service';
 import { pdfDataProviders } from 'src/pdf-data/pdf-data.providers';
-import { PdfListService } from 'src/docu-bucket/docu-bucket.service';
-import { pdfListProviders } from 'src/docu-bucket/docu-bucket.providers';
+import { docuBucketProviders } from 'src/docu-bucket/docu-bucket.providers';
+import { DocubucketService } from 'src/docu-bucket/docu-bucket.service';
 
 @Module({
   imports: [DatabaseModule, WorkOrderModule, PdfDataModule],
@@ -18,11 +18,11 @@ import { pdfListProviders } from 'src/docu-bucket/docu-bucket.providers';
   providers: [
     CustomerService,
     PdfDataService,
-    PdfListService,
+    DocubucketService,
     ...customerProviders,
     ...workOrderProviders,
     ...pdfDataProviders,
-    ...pdfListProviders,
+    ...docuBucketProviders,
   ],
 })
 export class CustomerModule {}

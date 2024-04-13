@@ -7,9 +7,9 @@ import {
   UseInterceptors,
   Bind,
 } from '@nestjs/common';
-import { PdfListService } from './docu-bucket.service';
-import { IPdfList } from './docu-bucket.interface';
-@Controller('pdf-list')
-export class PdfListController {
-  constructor(private readonly pdfService: PdfListService) {}
+import { DocubucketService } from './docu-bucket.service';
+import { IDocuBucket } from './docu-bucket.interface';
+@Controller('docu-bucket')
+export class DocubucketController {
+  constructor(private readonly docubucketService: DocubucketService) {}
 }
