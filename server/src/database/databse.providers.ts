@@ -46,6 +46,7 @@ export const databaseProviders = [
         MainWorkOrder,
         FieldData,
         FieldTable,
+        PdfData,
       ]);
       await sequelize.sync();
       return sequelize;

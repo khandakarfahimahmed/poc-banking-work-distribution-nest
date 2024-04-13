@@ -40,12 +40,11 @@ export class CustomerController {
     const existingCustomer = await this.customerService.findByNid(
       customer.nid_no,
     );
+    let nextAccId = 0;
+    const maxId = await this.customerService.findMaxAccId();
+
+    nextAccId = maxId + 1;
     if (existingCustomer) {
-      let nextAccId = 1;
-      const maxId = await this.customerService.findMaxAccId(existingCustomer);
-
-      nextAccId = maxId + 1;
-
       await this.customerService.createAccList({
         acc_id: nextAccId,
         customer_id: existingCustomer.id,
@@ -60,7 +59,13 @@ export class CustomerController {
         pdf_3: [],
         pdf_4: [],
       };
-
+      for (const file of files) {
+        // For example, you can save each file to the server or process it in some other way
+        // For demonstration purposes, let's log the filename and its size
+        console.log(
+          `Received file: ${file.originalname}, size: ${file.size} bytes`,
+        );
+      }
       if (files && files.length > 0) {
         for (let i = 0; i < Math.min(files.length, 4); i++) {
           pdfData[`pdf_${i + 1}`] = await convertPDFBufferToImagesAndUpload(
@@ -77,7 +82,7 @@ export class CustomerController {
 
     const createdCustomer = await this.customerService.create(customer);
     await this.customerService.createAccList({
-      acc_id: 1,
+      acc_id: nextAccId,
       customer_id: createdCustomer.id,
       acc_type: 'personal',
       status: 'need approval',

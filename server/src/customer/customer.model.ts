@@ -36,7 +36,7 @@ export class CustomerAccountList
   implements ICustomerAccountNo
 {
   @Column({ primaryKey: true, autoIncrement: true })
-  id: number;
+  id: number | null;
   @Column
   acc_id: number;
   @Column

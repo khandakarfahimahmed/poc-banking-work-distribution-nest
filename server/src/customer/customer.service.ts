@@ -31,8 +31,11 @@ export class CustomerService {
   ): Promise<CustomerAccountList> {
     return this.customerAccountListModel.create(accList);
   }
-  async findMaxAccId(existingCustomer: Customer): Promise<any> {
-    const maxAccId = await this.customerAccountListModel.max('acc_id');
-    return maxAccId;
+
+  async findAllAccList(): Promise<CustomerAccountList[]> {
+    return this.customerAccountListModel.findAll();
+  }
+  async findMaxAccId(): Promise<number> {
+    return this.customerAccountListModel.max('acc_id');
   }
 }
