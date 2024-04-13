@@ -18,4 +18,9 @@ export class PdfController {
   async addPdf(@Body() pdf: IPdf): Promise<any> {
     return await this.pdfService.addPdf(pdf);
   }
+
+  @Get()
+  async findAllPdfName(): Promise<any> {
+    return await this.pdfService.findAllPdfName();
+  }
 }

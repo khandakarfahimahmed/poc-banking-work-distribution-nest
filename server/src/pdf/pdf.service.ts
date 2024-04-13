@@ -8,4 +8,12 @@ export class PdfService {
   async addPdf(pdf: IPdf): Promise<any> {
     return await Pdf.create(pdf);
   }
+  async findAllPdfName(): Promise<any> {
+    try {
+      const pdfs = await Pdf.findAll();
+      return pdfs.map((pdf: IPdf) => pdf.pdf_name);
+    } catch (error) {
+      throw new Error('Error fetching PDF names');
+    }
+  }
 }

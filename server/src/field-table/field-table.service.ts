@@ -5,4 +5,7 @@ import FieldTable from './field-table.model';
 @Injectable()
 export class FieldTableService {
   constructor() {}
+  async addFieldTable(fieldTable: IFieldTable): Promise<any> {
+    return await FieldTable.create(fieldTable);
+  }
 }

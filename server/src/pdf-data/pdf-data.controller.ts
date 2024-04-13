@@ -11,7 +11,7 @@ import { PdfDataService } from './pdf-data.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { convertPDFBufferToImagesAndUpload } from './pdf.middleware';
 import { IPdfData } from './pdf-data.interface';
-@Controller('pdf')
+@Controller('pdf-data')
 export class PdfDataController {
   constructor(private readonly pdfService: PdfDataService) {}
 

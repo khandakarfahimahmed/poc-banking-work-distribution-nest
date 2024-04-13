@@ -13,4 +13,9 @@ import { FieldTableService } from './field-table.service';
 @Controller('feild-data')
 export class FieldTableController {
   constructor(private readonly fieldTableService: FieldTableService) {}
+
+  @Post()
+  async addFieldTable(@Body() fieldTable: IFieldTable): Promise<any> {
+    return await this.fieldTableService.addFieldTable(fieldTable);
+  }
 }
