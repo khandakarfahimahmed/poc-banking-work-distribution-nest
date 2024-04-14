@@ -4,7 +4,7 @@ import { EmployeeRole } from '../employee-role/employee-role.model';
 
 export const workOrderProviders = [
   {
-    provide: 'WORKORDER_REPOSITORY',
+    provide: 'REVIEWER_WORK_ORDER_REPOSITORY',
     useValue: ReviewerWorkOrder,
   },
   {

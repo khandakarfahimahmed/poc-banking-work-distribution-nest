@@ -11,9 +11,18 @@ export class PdfService {
   async findAllPdfName(): Promise<any> {
     try {
       const pdfs = await Pdf.findAll();
-      return pdfs.map((pdf: IPdf) => pdf.pdf_name);
+      // return pdfs.map((pdf: IPdf) => pdf.pdf_name);
+      return pdfs;
     } catch (error) {
       throw new Error('Error fetching PDF names');
+    }
+  }
+  async findPdfByName(pdfName: string): Promise<any> {
+    try {
+      const pdf = await Pdf.findOne({ where: { pdf_name: pdfName } });
+      return pdf;
+    } catch (error) {
+      throw new Error('Error fetching PDF');
     }
   }
 }

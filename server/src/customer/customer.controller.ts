@@ -17,6 +17,9 @@ import { convertPDFBufferToImagesAndUpload } from 'src/pdf-data/pdf.middleware';
 import { PdfDataService } from 'src/pdf-data/pdf-data.service';
 import { IPdfData } from 'src/pdf-data/pdf-data.interface';
 import { DocubucketService } from 'src/docu-bucket/docu-bucket.service';
+import { pdfDataProviders } from '../pdf-data/pdf-data.providers';
+import { PdfService } from 'src/pdf/pdf.service';
+import { ReviewerWorkOrderService } from 'src/reviewer-work-order/reviewer-work-order.service';
 
 @Controller('customer')
 export class CustomerController {
@@ -25,6 +28,9 @@ export class CustomerController {
 
     private readonly pdfDataService: PdfDataService,
     private readonly docubucketService: DocubucketService,
+    private readonly pdfService: PdfService,
+
+    private readonly reviewerWorkOrderService: ReviewerWorkOrderService,
   ) {}
   @Get()
   async getAllCustomer(): Promise<ICustomer[]> {
@@ -51,29 +57,31 @@ export class CustomerController {
         acc_type: 'personal',
         status: 'need approval',
       });
-      const pdfData: IPdfData = {
-        acc_id: nextAccId,
-        customer_id: existingCustomer.id,
-        pdf_1: [],
-        pdf_2: [],
-        pdf_3: [],
-        pdf_4: [],
-      };
-      for (const file of files) {
-        // For example, you can save each file to the server or process it in some other way
-        // For demonstration purposes, let's log the filename and its size
-        const filenameParts = file.originalname.split('.');
-        const filename = filenameParts[0];
-        console.log(`Received file: ${filename} size: ${file.size} bytes`);
-      }
-      if (files && files.length > 0) {
-        for (let i = 0; i < Math.min(files.length, 4); i++) {
-          pdfData[`pdf_${i + 1}`] = await convertPDFBufferToImagesAndUpload(
-            files[i].buffer,
-          );
-        }
-        this.pdfDataService.postPdf(pdfData);
-      }
+      const allPdfNames = await this.pdfService.findAllPdfName(); // Get all PDF names from the database
+      const matchedPdfIds = files.map((file) => {
+        const pdfName = file.originalname.split('.')[0]; // Extract PDF name from the filename
+        const pdf = allPdfNames.find((pdf) => pdf.pdf_name === pdfName); // Find the corresponding PDF in the database
+        return pdf ? pdf.id : null; // Return PDF ID or null if not found
+      });
+
+      await Promise.all(
+        matchedPdfIds.map(async (pdfId, index) => {
+          if (pdfId !== null) {
+            const pdfValue = await convertPDFBufferToImagesAndUpload(
+              files[index].buffer,
+            );
+            console.log(pdfValue);
+
+            await this.docubucketService.postPdf({
+              acc_id: nextAccId,
+              customer_id: existingCustomer.id,
+              pdf_id: pdfId,
+              pdf_values: pdfValue, // Add PDF value to the array
+            });
+          }
+        }),
+      );
+
       throw new HttpException(
         { message: 'NID number already exists', existingCustomer },
         HttpStatus.BAD_REQUEST,
@@ -101,6 +109,7 @@ export class CustomerController {
         pdfData[`pdf_${i + 1}`] = await convertPDFBufferToImagesAndUpload(
           files[i].buffer,
         );
+        console.log(pdfData[`pdf_${i + 1}`]);
       }
       this.pdfDataService.postPdf(pdfData);
     }

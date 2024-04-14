@@ -7,30 +7,30 @@ import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.mo
 export class ReviewerWorkOrderService {
   constructor(
     @Inject('WORKORDER_REPOSITORY')
-    private readonly workOrderModel: typeof ReviewerWorkOrder,
+    private readonly revWorkOrderModel: typeof ReviewerWorkOrder,
     @Inject('WORKFLOW_ASSIGN_LOG_REPOSITORY')
     private readonly workFlowAssignLogModel: typeof WorkFlowAssignLog,
   ) {}
   async createWorkOrder(
-    workOrder: IReviewerWorkOrder,
+    revWorkOrder: IReviewerWorkOrder,
   ): Promise<ReviewerWorkOrder> {
-    return this.workOrderModel.create(workOrder);
+    return this.revWorkOrderModel.create(revWorkOrder);
   }
   async updateStatusReviewer(id: number): Promise<void> {
-    await this.workOrderModel.update(
+    await this.revWorkOrderModel.update(
       { status: 'maker', isAssigned: false },
       { where: { id } },
     );
   }
   async updateStatusMaker(id: number): Promise<void> {
-    await this.workOrderModel.update(
+    await this.revWorkOrderModel.update(
       { status: 'checker', isAssigned: false },
       { where: { id } },
     );
   }
 
   async findAllWorkOrder(): Promise<ReviewerWorkOrder[]> {
-    return this.workOrderModel.findAll();
+    return this.revWorkOrderModel.findAll();
   }
   async updateWorkOrder(
     id: number,
@@ -38,7 +38,7 @@ export class ReviewerWorkOrderService {
     assigned_to: number,
   ): Promise<void> {
     try {
-      await this.workOrderModel.update(
+      await this.revWorkOrderModel.update(
         {
           status: status,
           assigned_to: assigned_to,

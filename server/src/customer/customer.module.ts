@@ -11,18 +11,23 @@ import { PdfDataService } from 'src/pdf-data/pdf-data.service';
 import { pdfDataProviders } from 'src/pdf-data/pdf-data.providers';
 import { docuBucketProviders } from 'src/docu-bucket/docu-bucket.providers';
 import { DocubucketService } from 'src/docu-bucket/docu-bucket.service';
+import { pdfProviders } from 'src/pdf/pdf.providers';
+import { PdfService } from 'src/pdf/pdf.service';
+import { PdfModule } from 'src/pdf/pdf.module';
 
 @Module({
-  imports: [DatabaseModule, WorkOrderModule, PdfDataModule],
+  imports: [DatabaseModule, WorkOrderModule, PdfDataModule, PdfModule],
   controllers: [CustomerController],
   providers: [
     CustomerService,
     PdfDataService,
     DocubucketService,
+    PdfService,
     ...customerProviders,
     ...workOrderProviders,
     ...pdfDataProviders,
     ...docuBucketProviders,
+    ...pdfProviders,
   ],
 })
 export class CustomerModule {}
