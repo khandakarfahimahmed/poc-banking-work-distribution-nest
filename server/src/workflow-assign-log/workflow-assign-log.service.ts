@@ -1,7 +1,6 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { WorkFlowAssignLog } from './workflow-assign-log.model';
-// import { WorkOrderService } from '../work-order/work-order.service';
-// import { WorkOrder } from '../work-order/work-order.model';
+
 import { Employee } from '../employee/employee.model';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { EmployeeRole } from '../employee-role/employee-role.model';
@@ -24,8 +23,6 @@ export class WorkFlowAssignLogService {
   constructor(
     @Inject('WORKFLOW_ASSIGN_LOG_REPOSITORY')
     private readonly workFlowAssignLogModel: typeof WorkFlowAssignLog,
-    @Inject('WORKORDER_REPOSITORY')
-    // private readonly workOrderModel: typeof WorkOrder,
     @Inject('EMPLOYEE_REPOSITORY')
     private readonly employeeModel: typeof Employee,
     @Inject('EMPLOYEE_ROLE_REPOSITORY')

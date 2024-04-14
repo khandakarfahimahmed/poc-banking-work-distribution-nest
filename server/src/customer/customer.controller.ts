@@ -57,6 +57,15 @@ export class CustomerController {
         acc_type: 'personal',
         status: 'need approval',
       });
+      await this.reviewerWorkOrderService.createReviewerWorkOrder({
+        acc_id: nextAccId,
+        customer_id: existingCustomer.id,
+        acc_type: 'personal',
+        status: 'need approval',
+        assigned_to: null,
+        start_time: new Date(),
+        isAssigned: false,
+      });
       const allPdfNames = await this.pdfService.findAllPdfName(); // Get all PDF names from the database
       const matchedPdfIds = files.map((file) => {
         const pdfName = file.originalname.split('.')[0]; // Extract PDF name from the filename
@@ -94,6 +103,15 @@ export class CustomerController {
       customer_id: createdCustomer.id,
       acc_type: 'personal',
       status: 'need approval',
+    });
+    await this.reviewerWorkOrderService.createReviewerWorkOrder({
+      acc_id: nextAccId,
+      customer_id: createdCustomer.id,
+      acc_type: 'personal',
+      status: 'need approval',
+      assigned_to: null,
+      start_time: new Date(),
+      isAssigned: false,
     });
     const pdfData: IPdfData = {
       acc_id: 1,

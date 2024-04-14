@@ -7,7 +7,7 @@ import { EmployeeStatsModule } from './employee-stats/employee-stats.module';
 import { EmployeeModule } from './employee/employee.module';
 import { FieldDataModule } from './field-data/field-data.module';
 import { FieldTableModule } from './field-table/field-table.module';
-import { WorkOrderModule } from './reviewer-work-order/reviewer-work-order.module';
+import { ReviewerWorkOrderModule } from './reviewer-work-order/reviewer-work-order.module';
 import { WorkFlowAssignLogModule } from './workflow-assign-log/workflow-assign-log.module';
 
 import { CustomerService } from './customer/customer.service';
@@ -46,7 +46,7 @@ import { PdfModule } from './pdf/pdf.module';
 import { pdfProviders } from './pdf/pdf.providers';
 import { PdfService } from './pdf/pdf.service';
 import { ReviewerWorkOrderController } from './reviewer-work-order/reviewer-work-order.controller';
-import { workOrderProviders } from './reviewer-work-order/reviewer-work-order.providers';
+import { reviewerWorkOrderProviders } from './reviewer-work-order/reviewer-work-order.providers';
 import { WorkflowAssignLogController } from './workflow-assign-log/workflow-assign-log.controller';
 import { workFlowAssignLogProviders } from './workflow-assign-log/workflow-assign-log.providers';
 
@@ -58,12 +58,13 @@ import { workFlowAssignLogProviders } from './workflow-assign-log/workflow-assig
     EmployeeModule,
     EmployeeStatsModule,
     WorkFlowAssignLogModule,
-    WorkOrderModule,
+    ReviewerWorkOrderModule,
     PdfDataModule,
     EmployeeRoleModule,
     DocubucketModule,
     PdfModule,
     MainWorkOrderModule,
+
     ScheduleModule.forRoot(),
   ],
   controllers: [
@@ -93,11 +94,12 @@ import { workFlowAssignLogProviders } from './workflow-assign-log/workflow-assig
     PdfService,
     MainWorkOrderService,
     FieldDataService,
+
     ...customerProviders,
     ...employeeProviders,
     ...employeeStatsProviders,
     ...workFlowAssignLogProviders,
-    ...workOrderProviders,
+    ...reviewerWorkOrderProviders,
     ...pdfDataProviders,
     ...employeeRoleProviders,
     ...docuBucketProviders,

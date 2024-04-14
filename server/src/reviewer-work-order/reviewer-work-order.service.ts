@@ -6,39 +6,37 @@ import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.mo
 @Injectable()
 export class ReviewerWorkOrderService {
   constructor(
-    @Inject('WORKORDER_REPOSITORY')
-    private readonly revWorkOrderModel: typeof ReviewerWorkOrder,
-    @Inject('WORKFLOW_ASSIGN_LOG_REPOSITORY')
-    private readonly workFlowAssignLogModel: typeof WorkFlowAssignLog,
+    @Inject('REVIEWER_WORK_ORDER_REPOSITORY')
+    private readonly reviewerWorkOrderModel: typeof ReviewerWorkOrder,
   ) {}
-  async createWorkOrder(
+  async createReviewerWorkOrder(
     revWorkOrder: IReviewerWorkOrder,
   ): Promise<ReviewerWorkOrder> {
-    return this.revWorkOrderModel.create(revWorkOrder);
+    return this.reviewerWorkOrderModel.create(revWorkOrder);
   }
   async updateStatusReviewer(id: number): Promise<void> {
-    await this.revWorkOrderModel.update(
+    await this.reviewerWorkOrderModel.update(
       { status: 'maker', isAssigned: false },
       { where: { id } },
     );
   }
   async updateStatusMaker(id: number): Promise<void> {
-    await this.revWorkOrderModel.update(
+    await this.reviewerWorkOrderModel.update(
       { status: 'checker', isAssigned: false },
       { where: { id } },
     );
   }
 
   async findAllWorkOrder(): Promise<ReviewerWorkOrder[]> {
-    return this.revWorkOrderModel.findAll();
+    return this.reviewerWorkOrderModel.findAll();
   }
-  async updateWorkOrder(
+  async updateReviewerWorkOrder(
     id: number,
     status: string,
     assigned_to: number,
   ): Promise<void> {
     try {
-      await this.revWorkOrderModel.update(
+      await this.reviewerWorkOrderModel.update(
         {
           status: status,
           assigned_to: assigned_to,

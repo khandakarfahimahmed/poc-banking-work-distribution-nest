@@ -1,6 +1,5 @@
 import { WorkFlowAssignLog } from './workflow-assign-log.model';
 import { WorkflowAssignLogController } from './workflow-assign-log.controller';
-import { workOrderProviders } from '../reviewer-work-order/reviewer-work-order.providers';
 
 import { Employee } from '../employee/employee.model';
 import { EmployeeRole } from '../employee-role/employee-role.model';
