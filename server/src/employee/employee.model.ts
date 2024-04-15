@@ -56,6 +56,8 @@ export class Employee extends Model<IEmployee> {
     allowNull: false,
   })
   admin: boolean;
+  @Column
+  team_id: number;
 
   @Column
   role_id: number;

@@ -23,7 +23,7 @@ export class FieldTable extends Model<FieldTable> implements IFieldTable {
   @Column
   page: number;
 
-  @Column
+  @Column({ defaultValue: 0 })
   co_ordinate: number;
 
   @Column
