@@ -56,6 +56,7 @@ export class CustomerController {
         customer_id: existingCustomer.id,
         acc_type: 'personal',
         status: 'need approval',
+        current_state: 'pending',
       });
       await this.reviewerWorkOrderService.createReviewerWorkOrder({
         acc_id: nextAccId,
@@ -103,6 +104,7 @@ export class CustomerController {
       customer_id: createdCustomer.id,
       acc_type: 'personal',
       status: 'need approval',
+      current_state: 'pending',
     });
     await this.reviewerWorkOrderService.createReviewerWorkOrder({
       acc_id: nextAccId,

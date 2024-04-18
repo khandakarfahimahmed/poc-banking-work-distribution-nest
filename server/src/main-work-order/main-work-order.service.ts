@@ -10,7 +10,7 @@ export class MainWorkOrderService {
   constructor() {}
   @Inject('MAIN_WORKORDER_REPOSITORY')
   private readonly mainWorkOrderModel: typeof MainWorkOrder;
-  @Inject('Reviewer_WorkOrder_REPOSITORY')
+  @Inject('REVIEWER_WORKORDER_REPOSITORY')
   private readonly reviewerWorkOrderModel: typeof ReviewerWorkOrder;
 
   async findCompletedReviewerWorkOrder(): Promise<ReviewerWorkOrder[]> {

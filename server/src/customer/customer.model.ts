@@ -45,6 +45,8 @@ export class CustomerAccountList
   acc_type: string;
   @Column
   status: string;
+  @Column
+  current_state: string;
 }
 
 export default { Customer, CustomerAccountList };
