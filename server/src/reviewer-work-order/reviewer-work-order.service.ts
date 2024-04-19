@@ -1,11 +1,13 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { IReviewerWorkOrder } from './reviewer-work-order.interface';
 import { ReviewerWorkOrder } from './reviewer-work-order.model';
 import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.model';
 import Employee from 'src/employee/employee.model';
-
+import { Cron, CronExpression } from '@nestjs/schedule';
 @Injectable()
 export class ReviewerWorkOrderService {
+  private readonly logger = new Logger(ReviewerWorkOrderService.name);
+  private readonly threshold = 3;
   constructor(
     @Inject('REVIEWER_WORK_ORDER_REPOSITORY')
     private readonly reviewerWorkOrderModel: typeof ReviewerWorkOrder,
@@ -52,13 +54,12 @@ export class ReviewerWorkOrderService {
   }
   async updateReviewerWorkOrder(
     id: number,
-    status: string,
+
     assigned_to: number,
   ): Promise<void> {
     try {
       await this.reviewerWorkOrderModel.update(
         {
-          status: status,
           assigned_to: assigned_to,
           start_time: new Date(),
           isAssigned: true,
@@ -72,5 +73,78 @@ export class ReviewerWorkOrderService {
       console.log(`Error updating work order for task ${id}:`, error);
       throw error;
     }
+  }
+  // async distributeTask(): Promise<void> {
+  //   try {
+  //     const activeEmployees = await this.employeeModel.findAll({
+  //       where: { active: true, admin: null, role_id: 2 },
+  //     });
+
+  //     await Promise.all(
+  //       activeEmployees.map(async (employee) => {
+  //         const tasks = await this.reviewerWorkOrderModel.findAll({
+  //           where: {
+  //             status: 'need approval',
+  //             isAssigned: false,
+  //           },
+  //           limit: this.threshold,
+  //         });
+
+  //         await Promise.all(
+  //           tasks.map(async (task) => {
+  //             await this.assignTask(task.id, employee.id);
+  //             await this.updateReviewerWorkOrder(
+  //               task.id,
+
+  //               employee.id,
+  //             );
+  //           }),
+  //         );
+  //       }),
+  //     );
+
+  //     console.log('Tasks distributed successfully.');
+  //   } catch (error) {
+  //     console.error('Error distributing tasks:', error);
+  //   }
+  // }
+
+  async distributeTask(): Promise<void> {
+    try {
+      const activeEmployeesReviewer = await this.employeeModel.findAll({
+        where: { active: true, admin: 'null', role_id: 2 },
+      });
+      for (let i = 0; i < activeEmployeesReviewer.length; i++) {
+        const taskForReviwer = await this.reviewerWorkOrderModel.findAll({
+          where: {
+            assigned_to: null,
+            isAssigned: false,
+          },
+        });
+
+        for (let j = 0; j < taskForReviwer.length; j++) {
+          if (j < this.threshold) {
+            await this.assignTask(
+              taskForReviwer[j].id,
+              activeEmployeesReviewer[i].id,
+            );
+            await this.updateReviewerWorkOrder(
+              taskForReviwer[j].id,
+              activeEmployeesReviewer[i].id,
+            );
+          }
+        }
+      }
+
+      console.log('Tasks distributed successfully.');
+    } catch (error) {
+      console.error('Error distributing tasks:', error);
+    }
+  }
+
+  // @Cron(CronExpression.EVERY_30_SECONDS, { name: 'distributeTask' })
+  distributeTaskByCron() {
+    this.logger.debug('Running distributeTask cron job...');
+    return this.distributeTask();
   }
 }

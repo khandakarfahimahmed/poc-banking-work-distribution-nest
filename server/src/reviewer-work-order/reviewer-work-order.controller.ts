@@ -45,4 +45,9 @@ export class ReviewerWorkOrderController {
   async findAllWorkOrder(): Promise<IReviewerWorkOrder[]> {
     return this.revWorkOrderService.findAllWorkOrder();
   }
+
+  @Post('assign-task')
+  async assignTask(): Promise<void> {
+    await this.revWorkOrderService.distributeTask();
+  }
 }
