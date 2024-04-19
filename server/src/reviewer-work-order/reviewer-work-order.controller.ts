@@ -50,4 +50,10 @@ export class ReviewerWorkOrderController {
   async assignTask(): Promise<void> {
     await this.revWorkOrderService.distributeTask();
   }
+
+  @Post('update')
+  async updateWorkOrder(@Body('id') id: number): Promise<IReviewerWorkOrder[]> {
+    await this.revWorkOrderService.updateReviwerWorkOrder(id);
+    return this.revWorkOrderService.findAllWorkOrder();
+  }
 }

@@ -38,4 +38,10 @@ export class CustomerService {
   async findMaxAccId(): Promise<number> {
     return this.customerAccountListModel.max('acc_id');
   }
+  async updateAccountList(accId: number, current_state: string): Promise<void> {
+    await this.customerAccountListModel.update(
+      { current_state },
+      { where: { acc_id: accId } },
+    );
+  }
 }

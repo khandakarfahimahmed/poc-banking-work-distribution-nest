@@ -3,7 +3,10 @@ import { IReviewerWorkOrder } from './reviewer-work-order.interface';
 import { ReviewerWorkOrder } from './reviewer-work-order.model';
 import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.model';
 import Employee from 'src/employee/employee.model';
+import { CustomerAccountList } from 'src/customer/customer.model';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { CustomerService } from 'src/customer/customer.service';
+
 @Injectable()
 export class ReviewerWorkOrderService {
   private readonly logger = new Logger(ReviewerWorkOrderService.name);
@@ -15,6 +18,8 @@ export class ReviewerWorkOrderService {
     private readonly workFlowAssignLogModel: typeof WorkFlowAssignLog,
     @Inject('EMPLOYEE_REPOSITORY')
     private readonly employeeModel: typeof Employee,
+    @Inject('CUSTOMER_ACCOUNT_LIST_REPOSITORY')
+    private readonly customerACCListModel: typeof CustomerAccountList,
   ) {}
   async createReviewerWorkOrder(
     revWorkOrder: IReviewerWorkOrder,
@@ -58,6 +63,10 @@ export class ReviewerWorkOrderService {
     assigned_to: number,
   ): Promise<void> {
     try {
+      await this.customerACCListModel.update(
+        { current_state: 'reviewer' },
+        { where: { acc_id: id } },
+      );
       await this.reviewerWorkOrderModel.update(
         {
           assigned_to: assigned_to,
@@ -119,6 +128,7 @@ export class ReviewerWorkOrderService {
           where: {
             assigned_to: null,
             isAssigned: false,
+            status: 'need approval',
           },
         });
 
@@ -142,9 +152,16 @@ export class ReviewerWorkOrderService {
     }
   }
 
-  // @Cron(CronExpression.EVERY_30_SECONDS, { name: 'distributeTask' })
+  @Cron(CronExpression.EVERY_MINUTE, { name: 'distributeTask' })
   distributeTaskByCron() {
     this.logger.debug('Running distributeTask cron job...');
     return this.distributeTask();
+  }
+
+  async updateReviwerWorkOrder(id: number): Promise<void> {
+    await this.reviewerWorkOrderModel.update(
+      { status: 'reviewed' },
+      { where: { id } },
+    );
   }
 }

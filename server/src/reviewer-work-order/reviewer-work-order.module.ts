@@ -13,6 +13,9 @@ import { WorkFlowAssignLogModule } from 'src/workflow-assign-log/workflow-assign
 import WorkFlowAssignLog from 'src/workflow-assign-log/workflow-assign-log.model';
 import { WorkFlowAssignLogService } from 'src/workflow-assign-log/workflow-assign-log.service';
 import { workFlowAssignLogProviders } from 'src/workflow-assign-log/workflow-assign-log.providers';
+import { CustomerService } from 'src/customer/customer.service';
+import { CustomerModule } from 'src/customer/customer.module';
+import { customerProviders } from 'src/customer/customer.providers';
 
 @Module({
   imports: [DatabaseModule, EmployeeModule, WorkFlowAssignLogModule],
@@ -20,7 +23,9 @@ import { workFlowAssignLogProviders } from 'src/workflow-assign-log/workflow-ass
   providers: [
     ReviewerWorkOrderService,
     EmployeeService,
+
     WorkFlowAssignLogService,
+
     ...employeeProviders,
     ...workFlowAssignLogProviders,
     ...reviewerWorkOrderProviders,
