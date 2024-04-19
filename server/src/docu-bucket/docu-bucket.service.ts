@@ -13,4 +13,7 @@ export class DocubucketService {
   async postPdf(pdf: IDocuBucket): Promise<any> {
     return await this.docBucketModel.create(pdf);
   }
+  async findAllDocs(): Promise<any> {
+    return await this.docBucketModel.findAll();
+  }
 }

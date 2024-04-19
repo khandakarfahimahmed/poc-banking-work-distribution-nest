@@ -16,7 +16,8 @@ export class PdfController {
 
   @Post()
   async addPdf(@Body() pdf: IPdf): Promise<any> {
-    return await this.pdfService.addPdf(pdf);
+    await this.pdfService.addPdf(pdf);
+    return this.pdfService.findAllPdfName();
   }
 
   @Get()

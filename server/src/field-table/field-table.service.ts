@@ -8,4 +8,8 @@ export class FieldTableService {
   async addFieldTable(fieldTable: IFieldTable): Promise<any> {
     return await FieldTable.create(fieldTable);
   }
+
+  async findAllFieldTable(): Promise<any> {
+    return await FieldTable.findAll();
+  }
 }

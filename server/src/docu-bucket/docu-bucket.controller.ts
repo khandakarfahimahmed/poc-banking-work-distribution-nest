@@ -12,4 +12,9 @@ import { IDocuBucket } from './docu-bucket.interface';
 @Controller('docu-bucket')
 export class DocubucketController {
   constructor(private readonly docubucketService: DocubucketService) {}
+
+  @Get()
+  async findAllDocs(): Promise<any> {
+    return await this.docubucketService.findAllDocs();
+  }
 }

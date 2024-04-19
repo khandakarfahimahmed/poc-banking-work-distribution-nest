@@ -18,4 +18,9 @@ export class MainWorkOrderService {
       where: { status: 'checked' },
     });
   }
+  async createMainWorkOrder(
+    mainWorkOrder: IMainWorkOrder,
+  ): Promise<MainWorkOrder> {
+    return this.mainWorkOrderModel.create(mainWorkOrder);
+  }
 }

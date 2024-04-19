@@ -29,7 +29,7 @@ export class WorkFlowAssignLog
   work_order_id: number;
 
   @Column
-  field_data_id: number;
+  field_data_id: number | null;
 
   @ForeignKey(() => Employee)
   @Column

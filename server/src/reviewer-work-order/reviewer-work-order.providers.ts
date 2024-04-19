@@ -1,6 +1,6 @@
 import { ReviewerWorkOrder } from './reviewer-work-order.model';
 import { WorkFlowAssignLog } from '../workflow-assign-log/workflow-assign-log.model';
-import { EmployeeRole } from '../employee-role/employee-role.model';
+import { Employee } from '../employee/employee.model';
 
 export const reviewerWorkOrderProviders = [
   {
@@ -12,7 +12,7 @@ export const reviewerWorkOrderProviders = [
     useValue: WorkFlowAssignLog,
   },
   {
-    provide: 'EMPLOYEE_ROLE_REPOSITORY',
-    useValue: EmployeeRole,
+    provide: 'EMPLOYEE_REPOSITORY',
+    useValue: Employee,
   },
 ];

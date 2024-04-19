@@ -5,19 +5,16 @@ import {
   Body,
   HttpException,
   HttpStatus,
-  UploadedFile,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
-
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ICustomer } from './customer.interface';
 import { convertPDFBufferToImagesAndUpload } from 'src/pdf-data/pdf.middleware';
 import { PdfDataService } from 'src/pdf-data/pdf-data.service';
 import { IPdfData } from 'src/pdf-data/pdf-data.interface';
 import { DocubucketService } from 'src/docu-bucket/docu-bucket.service';
-import { pdfDataProviders } from '../pdf-data/pdf-data.providers';
 import { PdfService } from 'src/pdf/pdf.service';
 import { ReviewerWorkOrderService } from 'src/reviewer-work-order/reviewer-work-order.service';
 
@@ -25,13 +22,12 @@ import { ReviewerWorkOrderService } from 'src/reviewer-work-order/reviewer-work-
 export class CustomerController {
   constructor(
     private readonly customerService: CustomerService,
-
     private readonly pdfDataService: PdfDataService,
     private readonly docubucketService: DocubucketService,
     private readonly pdfService: PdfService,
-
     private readonly reviewerWorkOrderService: ReviewerWorkOrderService,
   ) {}
+
   @Get()
   async getAllCustomer(): Promise<ICustomer[]> {
     return this.customerService.findAllCustomer();
@@ -48,8 +44,15 @@ export class CustomerController {
     );
     let nextAccId = 0;
     const maxId = await this.customerService.findMaxAccId();
-
     nextAccId = maxId + 1;
+
+    const allPdfNames = await this.pdfService.findAllPdfName(); // Get all PDF names from the database
+    const matchedPdfIds = files.map((file) => {
+      const pdfName = file.originalname.split('.')[0]; // Extract PDF name from the filename
+      const pdf = allPdfNames.find((pdf) => pdf.pdf_name === pdfName); // Find the corresponding PDF in the database
+      return pdf ? pdf.id : null; // Return PDF ID or null if not found
+    });
+
     if (existingCustomer) {
       await this.customerService.createAccList({
         acc_id: nextAccId,
@@ -66,12 +69,6 @@ export class CustomerController {
         assigned_to: null,
         start_time: new Date(),
         isAssigned: false,
-      });
-      const allPdfNames = await this.pdfService.findAllPdfName(); // Get all PDF names from the database
-      const matchedPdfIds = files.map((file) => {
-        const pdfName = file.originalname.split('.')[0]; // Extract PDF name from the filename
-        const pdf = allPdfNames.find((pdf) => pdf.pdf_name === pdfName); // Find the corresponding PDF in the database
-        return pdf ? pdf.id : null; // Return PDF ID or null if not found
       });
 
       await Promise.all(
@@ -94,7 +91,7 @@ export class CustomerController {
 
       throw new HttpException(
         { message: 'NID number already exists', existingCustomer },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.ACCEPTED,
       );
     }
 
@@ -115,6 +112,23 @@ export class CustomerController {
       start_time: new Date(),
       isAssigned: false,
     });
+    await Promise.all(
+      matchedPdfIds.map(async (pdfId, index) => {
+        if (pdfId !== null) {
+          const pdfValue = await convertPDFBufferToImagesAndUpload(
+            files[index].buffer,
+          );
+          console.log(pdfValue);
+
+          await this.docubucketService.postPdf({
+            acc_id: nextAccId,
+            customer_id: createdCustomer.id,
+            pdf_id: pdfId,
+            pdf_values: pdfValue, // Add PDF value to the array
+          });
+        }
+      }),
+    );
     const pdfData: IPdfData = {
       acc_id: 1,
       customer_id: createdCustomer.id,
